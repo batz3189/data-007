@@ -1,0 +1,253 @@
+＝＝＝＝＝＝＝＝＝＝=
+安装oracle11g                
+==============  
+
+
+
+
+
+官方安装文档连接地址：
+
+http://download.oracle.com/docs/cd/E11882_01/install.112/e10857/toc.htm
+
+
+
+检查相关的开发工具和一些包
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+
+The following or later version of packages for Asianux 3, Oracle Enterprise Linux 5, and Red Hat Enterprise Linux 5 should be installed:
+
+
+for rpm in binutils compat-libstdc++ elfutils-libelf elfutils-libelf-devel \
+         elfutils-libelf-devel-static gcc gcc-c++ glibc glibc-common \
+         glibc-devel glibc-headers kernel-headers ksh libaio libaio-devel \
+         libgcc libgomp libstdc++ libstdc++-devel make numactl-devel \
+         sysstat unixODBC unixODBC-devel
+do
+         rpm -q $rpm &>/dev/null || F="$F $rpm"
+done ;echo $F;unset F
+
+
+
+
+
+==========================================
+
+groupadd oinstall
+groupadd dba
+mkdir -p /u01/oracle
+
+添加一个oracle用户， 根目录是 /u01/oracle， 主的组是 oinstall 副的组是dba
+useradd -g oinstall -G dba -d /u01/oracle oracle
+
+cp /etc/skel/.bash_profile /u01/oracle
+
+cp /etc/skel/.bashrc /u01/oracle
+
+cp /etc/skel/.bash_logout /u01/oracle
+
+为oracle用户设置密码 123456
+passwd oracle
+
+/]#ls -l
+/]#chown -R oracle:oinstall u01
+/]#ls -l
+
+检查 nobody 是否存在 ，  id nobody
+缺省存在的。如果不存在 # /usr/sbin/useradd -g nobody
+
+========================================
+vi /etc/sysctl.conf
+
+fs.aio-max-nr = 1048576
+fs.file-max = 6815744
+kernel.shmall = 2097152
+kernel.shmmax = 536870912
+kernel.shmmni = 4096
+kernel.sem = 250 32000 100 128
+net.ipv4.ip_local_port_range = 9000 65500
+net.core.rmem_default = 262144
+net.core.rmem_max = 4194304
+net.core.wmem_default = 262144
+net.core.wmem_max = 1048586
+-------------
+vi /etc/security/limits.conf
+
+oracle           soft    nproc   2047
+oracle           hard    nproc   16384
+oracle           soft    nofile  1024
+oracle           hard    nofile  65536
+------------
+vi /etc/pam.d/login 
+
+session    required     pam_limits.so
+=================================================
+
+设置oracle 用户环境变量
+
+su - oracle
+
+pwd
+ls -la
+
+---------------
+vi .bash_profile
+
+ORACLE_BASE=/u01
+ORACLE_HOME=$ORACLE_BASE/oracle
+ORACLE_SID=wilson
+PATH=$ORACLE_HOME/bin:$PATH:$HOME/bin
+
+export ORACLE_BASE ORACLE_HOME ORACLE_SID PATH
+
+===================================
+
+mv database /u01/
+
+cd /u01
+ls -l
+
+ chown -R oracle:oinstall database/
+
+===========
+修改配置比较多东西， 重启一下系统，然后接着 就开始安装了
+
+
+
+使用oracle账号 登陆图形界面 进行安装
+
+运行终端 Terminal
+
+cd /u01/database
+
+./runInstaller
+
+Installation Optiong
+	install database software only
+
+Grid Options
+	Single instance database installation
+
+Product Languages
+	English
+
+Database Edition
+	Enterprise Edition (3.95)
+
+Installation Location
+	Oracle Base: /u01
+	Software Loacation: /u01/oracle
+
+		提示： yes
+
+Create Inventory
+	mkdir /oraInventory
+
+	chown -R oracle:oinstall oraInventory
+
+Operating System Groups
+	Next 
+
+Prerequis ite Checks
+出现内核参数问题时：
+以root身份执行 # /sbin/sysctl -p
+内存不足时：
+可选
+	Ignore All
+
+Summary
+	Finish
+
+Install Product
+	安装完毕， 提示执行 2个脚本
+
+	/oraInventory/orainstRoot.sh
+	/u01/oracle/root.sh
+		直接按回车， 缺省值就可以
+
+Finish
+	The installation of Oracle Database was successful
+
+====================================
+
+上面只是安装了软件， 数据库没有创建， 还有配置 监听器 Listener
+
+netca
+	一直默认下一步 ， 呵呵， 最后 Finish
+
+ps -ef 可以查看Listener是否配置成功
+
+-----------
+dbca
+	一直 Next,	Global Database Name 和 SID 都是输入 wilson
+
+	选择 User the Same.....All Accounts
+
+		密码: 123456
+
+
+	选择 Sample Schemas
+
+	Memory 内存分配，默认就可以了
+	Character Sets 选择 Use Unicode(AL32UTF8)
+
+	然后一直 Next ， 到最后 Finish
+
+弹出一个 Confirmation , 点击 OK 就可以了， 然后自动进行安装
+
+安装到目录 /u01/oradata/wilson
+	   /u01/等等。。。 会发现多了很多文件。
+
+--------------------
+然后可以修改  vi /etc/inittab 让 centos5.5 linux 启动的时候 不进入 图形界面
+		直接进入 字符界面
+
+	id:5:initdefault:	修改成  id:3:initdefault:
+
+	保存退出， 然后重启系统
+
+--------------------------------
+用 oracle 用户 远程登录， 然后 
+
+$ sqlplus /nolog
+
+SQL> conn / as sysdba
+
+Connected to an idle instance.
+出现错误 
+
+SQL> startup
+
+[oracle@localhost ~]$ sqlplus /nolog
+
+SQL*Plus: Release 11.2.0.1.0 Production on Fri Jun 25 15:05:54 2010
+
+Copyright (c) 1982, 2009, Oracle.  All rights reserved.
+
+SQL> conn / as sysdba
+Connected.
+SQL> create table testUser( id integer,name char(10));
+
+Table created.
+
+SQL> insert into testUser values(0,'Jack');
+
+1 row created.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> select * from testUser;
+
+        ID NAME
+---------- ----------
+         0 Jack
+
+关闭数据库
+SQL>  shutdown immediate
+
+SQL>  quit
+
+
+
