@@ -1,0 +1,43 @@
+       查看message日志发现如下报错，
+Jan 16 23:42:09  rpc.idmapd[3452]: nss_getpwnam: name 'root@localdomain' does not map into domain 'com'
+Jan 16 23:42:09  rpc.idmapd[3452]: nss_getpwnam: name 'daemon@localdomain' does not map into domain 'com'
+Jan 16 23:44:22  rpc.idmapd[3452]: nss_getpwnam: name 'root@localdomain' does not map into domain 'com'
+Jan 16 23:44:22  rpc.idmapd[3452]: nss_getpwnam: name 'daemon@localdomain' does not map into domain 'com'
+Jan 16 23:46:52  rpc.idmapd[3452]: nss_getpwnam: name 'nobody@localdomain' does not map into domain 'com'
+Jan 16 23:57:10  rpc.idmapd[3452]: nss_getpwnam: name 'nobody@localdomain' does not map into domain 'com'
+Jan 17 00:01:01  kernel: ERST: NVRAM ERST Log Address Range is not implemented yet
+Jan 17 00:07:30  rpc.idmapd[3452]: nss_getpwnam: name 'nobody@localdomain' does not map into domain 'com'
+Jan 17 00:17:18  rpc.idmapd[3452]: nss_getpwnam: name 'daemon@localdomain' does not map into domain 'com'
+Jan 17 00:27:25  rpc.idmapd[3452]: nss_getpwnam: name 'daemon@localdomain' does not map into domain 'com'
+
+       在客户端查看mount是可以挂载的，不影响正常使用，但是日志报如上图错误。
+       查阅一些资料说是 客户端和nfs服务器端uid和gid映射关系不对  修改了/etc/idmapd.conf中的 Domain对应的服务器域名如下：
+
+       [root@xxxx ~]# cat /etc/idmapd.conf 
+[         General]
+          #Verbosity = 0
+          # The following should be set to the local NFSv4 domain name
+          # The default is the host's DNS domain name.
+          #Domain = xxxx.com
+       还修改过 /etc/export 里面的挂载目录权限  
+
+       最后发现还是有报一样的错误
+      
+       最终采用如下命令 解决了日志不再报错的问题
+       mount -t nfs -o vers=3 192.168.1.111:/repository/files /usr/local/web/apache/htdocs/files
+       服务器上nfs版本是v4的 采用v3解决了问题
+
+     nfs服务器系统日志如下：
+Jan 16 23:44:31  kernel: nfsd: last server has exited, flushing export cache
+Jan 16 23:44:31  kernel: NFSD: Using /var/lib/nfs/v4recovery as the NFSv4 state recovery directory
+Jan 16 23:44:31  kernel: NFSD: starting 90-second grace period
+Jan 16 23:44:31  rpc.mountd[9431]: Version 1.2.3 starting
+Jan 16 23:57:47  rpc.mountd[9431]: Caught signal 15, un-registering and exiting.
+Jan 16 23:57:47  kernel: nfsd: last server has exited, flushing export cache
+Jan 16 23:57:47  kernel: NFSD: Using /var/lib/nfs/v4recovery as the NFSv4 state recovery directory
+Jan 16 23:57:47  kernel: NFSD: starting 90-second grace period
+Jan 16 23:57:47  rpc.mountd[9771]: Version 1.2.3 starting
+Jan 17 00:35:13  rpc.mountd[9771]: authenticated mount request from 192.168.1.111:767 for /repository/files (/repository)
+
+
+     写的不好请勿喷我 希望兄弟们在以后的工作中避免类似的问题， 谢谢！！！
