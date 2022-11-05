@@ -1,0 +1,653 @@
+{\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fswiss\fcharset0 Arial;}}
+\viewkind4\uc1\pard\f0\fs20 The OpenOffice.org Unofficial FAQ v0.3.1b\par
+A guide to complement the already existing documentation out there!\par
+DEPRECATED: Go to the FAQ at OOoAuthors.\par
+\par
+Support at users@openoffice.org and if you want to contribute to the new FAQ, there's always authors@user-faq.openoffice.org.\par
+\par
+by Colin Charles, drbyte@openoffice.org\par
+\par
+And all the kind contributions of the OpenOffice.org community, especially those on the mailing lists; without all those invaluable questions and answers, this FAQ would not exist.\par
+\par
+\par
+Latest version of this FAQ is always at http://www.bytebot.net/openoffice/faq.html\par
+\par
+Changelog\par
+\par
+FAQ Revised: Sunday 18 January 2004 10:17:36\par
+Table of Contents\par
+\par
+1. General\par
+\par
+        * 1.1. What is OpenOffice.org?\par
+        * 1.2. What are the system requirements?\par
+        * 1.3. How does it differ from StarOffice?\par
+        * 1.4. What is the current version of OpenOffice.org?\par
+        * 1.5. How can I get OpenOffice.org in some other language other than English?\par
+        * 1.6. What license is OpenOffice.org released under?\par
+        * 1.7. Are OpenOffice.org binaries legal for commercial/business use?\par
+        * 1.8. Can Sun ever take away the code?\par
+        * 1.9. How do I buy an OpenOffice.org CD?\par
+        * 1.10. Where does the real FAQ sit?\par
+        * 1.11. Where did all of these answers come from? (and the questions!)\par
+        * 1.12. Where else do I go for more help?\par
+        * 1.13. Are there commercial books or manuals to aid users in OpenOffice.org usage?\par
+        * 1.14. How is it properly called?\par
+        * 1.15. What does OpenOffice.org have to offer?\par
+        * 1.16. Is there a groupware component for OpenOffice.org?\par
+        * 1.17. How can I help with the FAQ?\par
+        * 1.18. How can I help with OpenOffice.org?\par
+        * 1.19. I think I've found a bug in OpenOffice.org. How do I find a workaround and/or report the bug?\par
+        * 1.20. Can I attach a file to an issue?\par
+        * 1.21. How do the OpenOffice.org developers decide which bugs to fix?\par
+        * 1.22. How do the OpenOffice.org QA project members decide which bug reports to screen first?\par
+\par
+2. Installation\par
+\par
+        * 2.1. Where can I get documentation on installation?\par
+        * 2.2. What is Java needed for?\par
+        * 2.3. Why do I need unicows.dll?\par
+        * 2.4. How do I get OpenOffice.org for Mac OS X?\par
+        * 2.5. How do I get OpenOffice.org installed on Red Hat Linux or Mandrake Linux via the RPM packaging format?\par
+        * 2.6. Are there RPMs for Red Hat Linux 9? Fedora Core?\par
+        * 2.7. How do I get OpenOffice.org installed on Debian via the apt-get packaging system?\par
+        * 2.8. How do I get OpenOffice.org installed on FreeBSD via the ports tree?\par
+        * 2.9. In Linux, how do I setup OpenOffice.org using a network/multi-user installation?\par
+        * 2.10. How do I perform a silent install?\par
+        * 2.11. How do I get rid of the OpenOffice.org splash screen?\par
+        * 2.12. How do I uninstall OpenOffice.org?\par
+        * 2.13. How does OpenOffice.org work over NFS?\par
+        * 2.14. How do I upgrade (in Red Hat 9) preserving the menus and the icons?\par
+\par
+3. Compatibility\par
+\par
+        * 3.1. Can Writer open up WordPerfect files?\par
+        * 3.2. Is there native LaTeX support built-in?\par
+        * 3.3. How well does OpenOffice.org integrate with the Lotus SmartSuite package?\par
+        * 3.4. Can OpenOffice.org open up Microsoft Works files?\par
+        * 3.5. While working on an OpenOffice.org document, someone else opened and modified it. However only the changes one of us made was kept. What's wrong?\par
+        * 3.6. Can I use my Microsoft Office macros?\par
+        * 3.7. Why can't I open Microsoft Office password protected files?\par
+        * 3.8. Can multiple users edit a file concurrently?\par
+        * 3.9. Why are my Microsoft Office files (.doc/.xls/.ppt) being opened up in OpenOffice.org now?\par
+        * 3.10. Can CAD drawing files be imported?\par
+        * 3.11. Is the Lycoris ProductivityPak compatible with OpenOffice.org?\par
+        * 3.12. Is Thiz Office compatible with OpenOffice.org?\par
+        * 3.13. A work-around to getting Lotus documents working under Linux\par
+\par
+4. Package\par
+\par
+        * 4.1. How do I change the page layout from Portrait to Landscape?\par
+        * 4.2. How do I get my scanner working under OpenOffice.org?\par
+        * 4.3. How do I turn AutoSave on?\par
+        * 4.4. I use Microsoft Office, but now I can't insert Manual Breaks from the keyboard anymore!\par
+        * 4.5. Where is the Zoom function?\par
+        * 4.6. How can I dock the Stylist, Navigator, and other floating windows?\par
+        * 4.7. How can I do a batch conversion of files to OpenOffice.org file formats?\par
+        * 4.8. How do I improve jagged font effects?\par
+        * 4.9. What are the different PDF Export qualities?\par
+        * 4.10. How do I add more fonts to OpenOffice.org?\par
+        * 4.11. I'm having trouble with fonts, is there a solution?\par
+\par
+5. Writer\par
+\par
+        * 5.1. Where is the word count feature?\par
+        * 5.2. Is there a word count feature for a selection of text?\par
+        * 5.3. Is there a grammar checker?\par
+        * 5.4. Is there a format painter in Writer?\par
+        * 5.5. How do I hide a blank address line when doing a mail merge?\par
+\par
+6. Calc\par
+\par
+        * 6.1. Can I use a spreadsheet file with more than 32,000 rows?\par
+        * 6.2. Adding trailing characters to a cell\par
+        * 6.3. How do I utilise TAB-delimited files?\par
+        * 6.4. Notes within cells - how are they displayed?\par
+        * 6.5. Where is the Word Wrap feature in Calc?\par
+        * 6.6. Why does Calc print out all the worksheets in the spreadsheet?\par
+        * 6.7. Why does deleting Auto-filtered rows remove my other rows too?\par
+        * 6.8. If a cell is centre-justified, and the text is wider than the cell, it automatically left-justifies.\par
+        * 6.9. My formula from an Excel worksheet doesn't work!\par
+        * 6.10. I have a custom number format that I use, but Calc forgets it.\par
+\par
+7. Impress\par
+\par
+        * 7.1. Getting 3-slides per page for printouts\par
+        * 7.2. Creating Macromedia Flash shows\par
+        * 7.3. Why are the holes filled within my Flash presentations?\par
+        * 7.4. How do I get PDF based handouts?\par
+\par
+8. Database\par
+\par
+        * 8.1. Is there database support in OpenOffice.org?\par
+        * 8.2. Where is Microsoft Access?\par
+        * 8.3. How do I access the Mozilla address book with a different profile?\par
+        * 8.4. How do I access data from Ximian Evolution?\par
+        * 8.5. How do I get my Microsoft Access files converted?\par
+\par
+9. Misc\par
+\par
+        * 9.1. Is there a way to print a batch of files without opening each of them in OOo?\par
+        * 9.2. How do I start OOo quicker? Its currently so slow!\par
+        * 9.3. Where do I download dictionaries? Also, where do I download dictionaries for other languages?\par
+        * 9.4. Where do I get help for writing macros?\par
+        * 9.5. How do I start another application instead of the default Writer?\par
+        * 9.6. Can I edit PDF files?\par
+        * 9.7. How do I get the recent version number?\par
+\par
+1. General\par
+\par
+1.1. What is OpenOffice.org?\par
+    OpenOffice.org is the project behind the multi-platform, free office package called OpenOffice.org 1.1 consisting of applications such as a word processor, spreadsheet and presentation software, that has a similar codebase to Sun Microsystem's StarOffice. OOo as its commonly called is the alternative to using a paid package like Microsoft Office. It currently runs on Windows, Linux, Mac OS X, FreeBSD, and Solaris.\par
+\par
+1.2. What are the system requirements?\par
+    Generally, 64-128MB of RAM is recommended, with a minimum of 32MB present under the Windows and Linux installation. 64MB is suggested to be the bare minimum as more memory improves start-up speed and overall performance. On Windows and Linux, a minimum of 115MB of hard disk space is required (this can go up to about 240MB), while on Mac OS X, you require about 450MB of disk space.\par
+\par
+1.3. How does it differ from StarOffice?\par
+    OpenOffice.org is an open-source project, which means that it is a piece of software (an office suite in this case) developed under a set of very liberal licenses (the LGPL and SISSL - more on this later).\par
+\par
+    One of the freedoms provided is that one can take OpenOffice.org and package it as his/her own distribution. Then, this distribution can be sold to make a revenue. Such a distribution is StarOffice, from Sun Microsystems.\par
+\par
+    Therefore, OpenOffice.org and StarOffice have exactly the same core applications, except that it misses out on certain fonts (like Asian language ones and a few for improved Microsoft file format compatibility), a database component (AdabasD), certain file filters, templates & a clip art gallery, and some sorting functionality. However, most of what OpenOffice.org lacks can be made up with the help of third-party applications.\par
+\par
+    OpenOffice.org has a nearly full-featured Gallery (it's getting there since the 1.1Beta2 release), and Impress has started including two templates in that release as well. The official documentation has a useful list.\par
+\par
+1.4. What is the current version of OpenOffice.org?\par
+    Current release is 1.1, and its a final release. This is available for Linux, Solaris and Windows platforms. Mac OS X is still in 1.0.3.\par
+\par
+    OpenOffice.org doesn't run on Mac OS 9 (Classic).\par
+\par
+1.5. How can I get OpenOffice.org in some other language other than English?\par
+    The Download page has a link to our current release page, which lists the languages in which the code is available. New localizations (translations) are constantly coming into being; for more information, please see http://l10n.openoffice.org.\par
+\par
+1.6. What license is OpenOffice.org released under?\par
+    OpenOffice.org is released by Sun thanks to the StarOffice source code being available under the GNU Lesser General Public License (LGPL) as well as the Sun Industry Standards Source License (SISSL).\par
+\par
+    This means that OpenOffice.org is free for use, even if it were commercial usage. Redistributing OpenOffice.org is also allowed under the licensing scheme. More details with regards to the license are available at the Licensing FAQ at the OpenOffice.org website.\par
+\par
+1.7. Are OpenOffice.org binaries legal for commercial/business use?\par
+    Yes, you may use OpenOffice.org binaries for commercial use. Alternatively, if you are interested in StarOffice for commercial use, please see this URL: http://www.sun.com/staroffice/\par
+\par
+1.8. Can Sun ever take away the code?\par
+    The simple answer to this is NO. Once code is released under the LGPL, it can never be taken away. Once LGPL, always LGPL. Sun has no plans to return to a closed-development model. Sun is subject to the same rules as the rest of the community, including giving back modifications under the LGPL (or a specification and reference implementation under the terms of the SISSL). Thus, Sun can never take away the code and the community's contributions to it. This code belongs to the community as guaranteed by the LGPL and the SISSL.\par
+\par
+1.9. How do I buy an OpenOffice.org CD?\par
+    If downloading the software is not feasible, you are always welcome to purchase a CDROM from one of the distributors that make them available in your country. More information about this is available at the OpenOffice.org CDROM Project.\par
+\par
+    It is also interesting to note that Red Hat Linux, Mandrake Linux, and SuSe distribute OpenOffice.org with their Linux distributions. Mandrake Club (Silver Membership), even provides a copy of StarOffice as an alternative product.\par
+\par
+1.10. Where does the real FAQ sit?\par
+    At the official OpenOffice.org FAQ list. There's the Main FAQ, Most Frequently Asked Questions, Product User FAQs and many more at the site.\par
+\par
+1.11. Where did all of these answers come from? (and the questions!)\par
+    From the various OpenOffice.org mailing lists and their contributors. I thought of just clipping them in files, and it seemed productive to grab all the text files and make them into a FAQ. I also play around with OOo quite a bit, so more contributions come out from the useful tips and tricks that I learnt along the way.\par
+\par
+1.12. Where else do I go for more help?\par
+    OpenOffice.org has plenty of forums for help. The mailing lists have plenty of help to offer, the discuss and users being the most popular.\par
+\par
+    There are websites out there that act as resources to all OpenOffice.org users:\par
+\par
+        * OpenOffice.org Support - They have guides for the various OpenOffice.org componenets.\par
+        * OpenOffice.org Forum - A forum for Q&A, with searchable archives as well.\par
+        * OOoDocs.org - OOo Documentation Project\par
+        * OOExtras - Extras for OpenOffice.org with templates and artwork\par
+        * Start4all - Lots of links to resources that may be handy. Includes recent developments that are positive to OOo in the news.\par
+        * OpenOfficeSupport.com - Useful questions and answers exist here too. \par
+\par
+    If you find any more useful resources or links, please drop them down the maintainers way - e-mail address is at the start of this document.\par
+\par
+1.13. Are there commercial books or manuals to aid users in OpenOffice.org usage?\par
+    Yes, they are listed below:\par
+\par
+        * GetOpenOffice.org - This is actually a book in print, that is great for beginners - The OpenOffice.org 1.0 Resource Kit.\par
+        * Taming OpenOffice.org - Here's a shareware book that you can download, and pay for if you enjoy using it! Currently only supporting Writer, there will be more components of the package supported. A review is available.\par
+        * OpenOffice.org Clue Sheets - Guides that are 2 pages long for each application, and come as real handy help. A review is available.\par
+        * OOoSwitch: 501 Things You Wanted to Know about Swithing to OpenOffice.org - relatively new, and has just been released! \par
+\par
+\par
+\par
+1.14. How is it properly called?\par
+    Getting a little pedantic, its meant to be called "OpenOffice.org", and not just plainly such as "OpenOffice". OO or OOo are similar short-forms that are used, especially when typing.\par
+\par
+1.15. What does OpenOffice.org have to offer?\par
+    Currently it has a word processor (Writer), spreadsheet (Calc), and a presentation application (Impress) - the things a basic office package needs. There is also a drawing application (Draw), a Math formula editor, and in the Windows versions a HTML Editor and "OpenOffice.org Global".\par
+\par
+1.16. Is there a groupware component for OpenOffice.org?\par
+    Groupware software that will make it more Microsoft Office like, is under development, and visiting the Glow project. An interim solution till Glow arrives is the integration with Mozilla Mail.\par
+\par
+1.17. How can I help with the FAQ?\par
+    By contributing tips and tricks, you'll already be helping. Just e-mail the maintainer, and credit will go to you when an update is made.\par
+\par
+1.18. How can I help with OpenOffice.org?\par
+    Sign up as a member of OpenOffice.org, then do one or more of the following:\par
+\par
+        * Go read OpenOffice.org Needs YOU!\par
+        * If you run into a problem, search IssueZilla for an existing bug report; If it has been reported, vote for it, otherwise fill out a new one.\par
+        * If you think OpenOffice.org needs a particular improvement, search IssueZilla for an existing Request for Enhancement. If someone has already requested it, vote for it; otherwise, file a new one\par
+        * Help handle a few bug reports by trying to reproduce the bug, and adding a comment to the bug report with whether you were able to reproduce it\par
+        * Join one of the developer or qa mailing lists\par
+        * Help translate OpenOffice.org to a new language\par
+        * Write a macro to make OpenOffice.org more useful for some task, and donate it \par
+\par
+\par
+\par
+1.19. I think I've found a bug in OpenOffice.org. How do I find a workaround and/or report the bug?\par
+    Check IssueZilla for an existing bug report. (The search interface is a little hard to use, but once you get the hang of it, it's pretty useful). If you find one, vote for it. If you don't, create a bug report.\par
+\par
+1.20. Can I attach a file to an issue?\par
+    Yes. Our current limit is 10MB (ten megabytes). Attaching a file to an issue is a two-step procedure and is not obvious. You must first submit the issue or locate the issue to which you wish to attach the file. Then, you can add the file as an attachment to that issue.\par
+\par
+    Note: You cannot add OpenOffice.org files natively. They must be added as "binary" files. This is a temporary problem.\par
+    Hints: Reduce the size of your file as much as possible. And, if you are uploading an HTML document, be sure to compress it first (Zip or tar it), otherwise it gets corrupted when others try to download it.\par
+\par
+1.21. How do the OpenOffice.org developers decide which bugs to fix?\par
+    They rely on OpenOffice.org QA project members to screen the bug reports. Only bug reports which can be reproduced by the QA project members are even seen by the developers.\par
+\par
+1.22. How do the OpenOffice.org QA project members decide which bug reports to screen first?\par
+    They try to screen them all, giving priority to newer bug reports and reports of crashes. If they don't get to a bug report within a week or so, it might fall through. One way to boost its visibility is to vote for it; the more votes a bug report has, the more likely it'll get looked at even if it is old!\par
+\par
+2. Installation\par
+\par
+2.1. Where can I get documentation on installation?\par
+    The OpenOffice.org Setup Guide is an indespensible resource. Another useful resource, is the OpenOffice.org CDROM Installation Guide created by Alex Fisher.\par
+\par
+    Do note that there is no Mac OS X installation instructions, or help with regards to package management on the different Linux distributions.\par
+\par
+2.2. What is Java needed for?\par
+    Java is required for some portions of the application to work properly - XSLT reliant materials, such as DocBook document creation is dependant on having a working Java Runtime Environment. To have a full-featured OpenOffice.org, the Java Runtime Environment should be installed before the OpenOffice.org package is installed; however, if it is installed afterwards, running jvmsetup will do the trick.\par
+\par
+    If you have downloaded the Java Runtime Environment (JRE) and choose to upgrade to using the Software Development Kit (SDK), runing jvmsetup again to point to the "new" version of Java is what you need to do.\par
+\par
+    It has been known that some versions of Java do not necessarily work with Linux, especially some from the Blackdown archives (for Debian users). It is probably wise to keep up with what Sun distributes, and get it from the Sun website. A full list of missing features include:\par
+\par
+        * usage of JDBC drivers\par
+        * XSLT and small device filters\par
+        * usage of Java applets within OpenOffice.org\par
+        * lack of Java based languages in the scripting framework\par
+        * the database report wizard\par
+        * the flat file filter\par
+        * all of the Java related test-tools and qaTestDev (for QA work)\par
+        * accessibility features \par
+\par
+\par
+\par
+2.3. Why do I need unicows.dll?\par
+    Windows 95/98 and Windows ME users used to require an additional DLL, which is basically a library designed for working with international characters. Microsoft keeps on changing the location of the file on their website, but the current version sits at The Microsoft Layer for Unicode on Windows 95/98/Me Systems.\par
+\par
+    This issue of needing the unicows.dll file is moot, once OpenOffice.org 1.1.0 and up are used.\par
+\par
+2.4. How do I get OpenOffice.org for Mac OS X?\par
+    The final release is ready, for OpenOffice.org 1.0.3 currently. To install OpenOffice.org, you need to download Apple's X11 server SDK Beta (~41MB in size, currently in Beta 3) first. Then proceed to download the OpenOffice.org 1.0.3 Darwin image (~169MB in size). Once Stuffit Expander is complete, run the OpenOffice.org installer. When prompted, install the additional packages, and once that is done, a warning window with regards to the installer not finding XDarwin pop's up. This can be safely ignored.\par
+\par
+    Now, in the Applications folder, there will be an OpenOffice.org1.0.3 folder. Double click on the "Start OpenOffice.org" icon. When prompted, select X11 as the favourite window manager. Patience is a virtue here, as the more RAM you have, the quicker the start-up goes; it takes a while otherwise. Once this is done, the Writer should be opened and OOo 1.0.3 is then correctly installed.\par
+\par
+2.5. How do I get OpenOffice.org installed on Red Hat Linux or Mandrake Linux via the RPM packaging format?\par
+    Both Red Hat and Mandrake distribute OpenOffice.org on their CD's. These are usually stable releases, in their package management format called RPM.\par
+\par
+    Usage of a command like urpmi (on Mandrake) or rpm -ivh (on Red Hat) will solve most problems. urpmi resolves dependencies, however the rpm command is a little different.\par
+\par
+2.6. Are there RPMs for Red Hat Linux 9? Fedora Core?\par
+    RPM's weren't built for Red Hat Linux 9.0, but they are for Fedora Core 1 onwards as well as the Red Hat Enterprise series (3.0 onwards). These are available on the CDROMs or via the Fedora site.\par
+\par
+2.7. How do I get OpenOffice.org installed on Debian via the apt-get packaging system?\par
+    If you use Debian, you must be used to installation via apt-get. Adding a new apt repository in your /etc/apt/sources.list is what needs to be done, and there is an excellent OpenOffice.org in Debian site for help out there; after-which you can just perform an apt-get install openoffice. This method resolves dependencies.\par
+\par
+    If you are tracking the unstable branch of Debian (currently Sid), then simply running apt-get install openoffice.org-bin is what you need. You may also find the additional packages helpful: openoffice.org-debian, openoffice.org-gnome, openoffice.org-help-en, myspell-en-gb, myspell-en-us.\par
+\par
+2.8. How do I get OpenOffice.org installed on FreeBSD via the ports tree?\par
+    FreeBSD tarballs (*.tar) are offered on the OpenOffice.org website. These are in fact FreeBSD packages that pkg_add can act on. It is as simple as pkg_add <packagename>.\par
+\par
+    However, within the FreeBSD ports collection, OpenOffice.org exists too. Visting /usr/ports/editors/openoffice or /usr/ports/editors/openoffice-devel will show you the ports that are required. To learn more about the ports system, man ports works well. Remember, that using the ports way of installing OpenOffice also resolves dependencies.\par
+\par
+    For bleeding edge FreeBSD stuff, the OpenOffice.org Source Project: FreeBSD Porting Team has some great downloads.\par
+\par
+2.9. In Linux, how do I setup OpenOffice.org using a network/multi-user installation?\par
+    If you downloaded the setup application from OpenOffice.org, and you're running "./setup", if you run it as the root user, and have the -net switch (so it's ./setup -net), all users on the system will have access to the OpenOffice.org package. By default, it asks to be installed in the /opt directory. Each user will individually have to run setup so that some OpenOffice.org settings are written to their home directory.\par
+\par
+    It should be noted that running ./install is equivalent to running ./setup -net, except that it has an auto-response file so that a complete non-graphical install can be performed. This option is useful for administrators that don't have X connections to the target machines. Trying ./install --help or using the -? or -h option will list its supported options.\par
+\par
+    So, a recap. Running ./install as root usually installs OpenOffice.org into /usr/local/OpenOffice.org_1.1. A user will have to run /usr/local/OpenOffice.org_1.1/./setup so that OpenOffice.org can be installed for the user in /home/username/OpenOffice.org_1.1.\par
+\par
+2.10. How do I perform a silent install?\par
+    In corporate environments, when rolling out OpenOffice.org to many machines, the easiest way to do it is via a silent install. In a Windows environment, the following guide seems to be useful:\par
+\par
+       1. Let Windows install the package from a network drive by\par
+          N:\\OpenOffice\\program\\setup.exe -r:N:\\OpenOffice\\response.txt\par
+          where N:\\ can be whatever it is the network drive has been mapped to, and it contains the install files of OpenOffice.org created by running setup.exe with the /net option\par
+       2. The response.txt file can contain:\par
+\par
+[Environment]\par
+InstallationMode=INSTALL_NORMAL\par
+InstallationType=STANDARD\par
+DestinationPath=C:\\Program Files\\OpenOffice\par
+StartProcedure=MyStartProc\par
+Migration=Yes\par
+\par
+[Java]\par
+JavaSupport=preinstalled_or_none\par
+\par
+[Procedures]\par
+Sub MyStartProc        \par
+\tab SetUserCompanyName("None")\par
+        HideSetupEnd Sub\par
+\par
+[Windows_Desktop_Integration]\par
+Register4MSWord=True\par
+Register4MSExcel=True\par
+Register4MSPowerPoint=True\par
+RegisterAsDefaultHTMLEditor=True   \par
+\par
+    Apparently, Sun for its StarOffice package provides some fairly good documentation in PDF files with regards to silent installs. Another good resource is the section within the user installation documentation entitled Windows in a Multiple User Environment.\par
+\par
+2.11. How do I get rid of the OpenOffice.org splash screen?\par
+    Edit the sofficerc file, which is located in your install directory, under program/sofficerc. So look in the $OO_INSTALL_PATH/program/sofficerc, and when it says Set Logo = 1, change that to Set Logo = 0. This now means the splash screen will be disabled the next time you start OpenOffice.org.\par
+\par
+    In Windows, its also located in the program folder, and you're looking for a soffice.ini file (plain ASCII text). The changes are the same as above.\par
+\par
+2.12. How do I uninstall OpenOffice.org?\par
+    On Windows, you can use the Add/Remove Programs option in the Control Panel. On Linux, you can use ./setup and chose the Remove option. If you installed OpenOffice.org through another method (an RPM, or a Debian package), using the appropriate package removal tool is best.\par
+\par
+2.13. How does OpenOffice.org work over NFS?\par
+    To get OpenOffice.org to export over NFS and perform the install, the server needs to have the link_relative option during NFS export. Without it, the links that the setup program creates are all absolute, which breaks the setup program when it crosses file systems.\par
+\par
+2.14. How do I upgrade (in Red Hat 9) preserving the menus and the icons?\par
+    Here's a tip from Daniel Kropveld, and this procedure will overwrite the previous binaries of OOo, so this is only recommended for updates to stable releases.\par
+\par
+    Get the tar.gz file from the download section of OpenOffice.org\par
+\par
+    Login as the root user:\par
+    (note: before doing any work as root user, remove the aliases in .profile and re-login; they modify normal behaviour of the rm-command)\par
+\par
+    Unpack the tar.gz file (this containes all the binaries, compiled for linux)\par
+    cd /tmp\par
+    tar -zxvpf <path-to/tar.gz-file>\par
+\par
+    Delete the old OOo binaries\par
+    rm -r /usr/lib/openoffice/*\par
+    (watch for typos, this is a very dangerous command if misspelled!)\par
+    This is needed because otherwise symbolic links will not be updated.\par
+\par
+    cd /tmp/<OOo-etc...>\par
+    ./setup -net\par
+\par
+    Then comes the normal install procedure. On most questions the default answer can be given. Except when you hit the install path, enter:\par
+    /usr/lib/openoffice\par
+\par
+    That is the main install completed. Then login as to create a user environment\par
+    cd /usr/lib/openoffice/program\par
+    ./setup\par
+\par
+    Select a Workstation installation path: /home//.openoffice\par
+\par
+    Overwrite? If you answer 'Yes to All' your previous OOo settings will be deleted. Be warned.\par
+\par
+    That is all, my menu settings and icons for Openoffice now work for the new version!\par
+\par
+3. Compatibility\par
+\par
+3.1. Can Writer open up WordPerfect files?\par
+    This is currently a work in progress, and can't quite be done just yet. Watch the WP Project. There is a library to import/export WordPerfect files to XML, called libwpd. There is a wpd2sxw converter that may be used.\par
+\par
+3.2. Is there native LaTeX support built-in?\par
+    Writer does have support for LaTeX, and this is typically useful for the scientific community, where formulas are utilised. A Java utility called Writer2LaTeX has been created for the purpose. It outputs .sxw (OpenOffice.org Writer files) to LaTeX 2e or XHTML 1.0 + MathML 1.01 and CSS2.\par
+\par
+    If given a LaTeX file, and there is a need to edit it in OOo Writer, the usage of LaTeX2rtf may come in handy.\par
+\par
+3.3. How well does OpenOffice.org integrate with the Lotus SmartSuite package?\par
+    OOo Calc imports Lotus 1-2-3 files just fine, but there is no in-built support for the proprietary formats of their word-processor (Word Pro) or their presentation software (Freelance Graphics).\par
+\par
+3.4. Can OpenOffice.org open up Microsoft Works files?\par
+    This is currently a no, because even Microsoft Office can't open the files Works creates! However, the Works to Word Conversion utility is at least meant to convert word-processor created files from Works to the Microsoft Word format, which OpenOffice.org can import. And Microsoft has a Works 6.0 Converter that would be more official, but be warned that they shift links around sometimes so a search may be necessary.\par
+\par
+3.5. While working on an OpenOffice.org document, someone else opened and modified it. However only the changes one of us made was kept. What's wrong?\par
+    A bug in OOo 1.0 exists, so the upgrade to 1.1 (currently in Beta 2) is recommended. Using StarOffice or Microsoft formats for the file in question seems to help rectify the problem.\par
+\par
+3.6. Can I use my Microsoft Office macros?\par
+    Even though the OpenOffice.org macros are written in a form of StarBASIC, it isn't the same as what Microsoft uses. Macros written for MS Word or Excel for instance cannot be executed via OpenOffice.org; you'll need to re-write them. This has its benefits - it makes OOo documents less virus prone.\par
+\par
+3.7. Why can't I open Microsoft Office password protected files?\par
+    The algorithm used to password protect those files were proprietary, and cannot be legally used. There are tools on the Internet that will help you break the password protection (most are Windows based).\par
+\par
+3.8. Can multiple users edit a file concurrently?\par
+    Microsoft Office supports this feature, but OpenOffice.org currently does not.\par
+\par
+3.9. Why are my Microsoft Office files (.doc/.xls/.ppt) being opened up in OpenOffice.org now?\par
+    The very basic reason to this is because during installation, you selected the default options of allowing OpenOffice.org to handle them. The fix is nicely documented at the OpenOffice.org User FAQ #16.\par
+\par
+3.10. Can CAD drawing files be imported?\par
+    OpenOffice.org supports importing of DXF based Computer Aided Design (CAD) files. Most CAD applications allow you to export as a DXF.\par
+\par
+3.11. Is the Lycoris ProductivityPak compatible with OpenOffice.org?\par
+    Lycoris Writer, Spreadsheet, Presents, Artist and WebWriter are exactly OpenOffice.org, so all documents are inter-changeable.\par
+\par
+3.12. Is Thiz Office compatible with OpenOffice.org?\par
+    Yes, this is another package based on OpenOffice.org, so all documents are inter-changeable with OpenOffice.org.\par
+\par
+3.13. A work-around to getting Lotus documents working under Linux\par
+    Since integration with Lotus doesn't exactly exist, Richard Neill actually has a guide as to how to install Lotus SmartSuite under Linux! The instructions are:\par
+\par
+    Dear OOo,\par
+\par
+    I have discovered a good workaround to reading Lotus Smart Suite (WordPro etc) files on Linux. I thought this might be of interest, given that OOo doesn't have a Lotus WordPro filter, and that the best advice on google is "open the file in Windows and export is as MSWord". I don't actually have Windows, so that's no good!\par
+\par
+    I will describe what I did on Mandrake 9.2, others may be able to improve upon it:\par
+\par
+       1. Uninstall Mandrake's own version of wine - it's too old, and doesn't work. It's also configured "weirdly". Move ~/.wine somewhere else in case you want to keep it. Also remove xwine.\par
+       2. Install wine-20031212-mdk.i586.rpm from http://sourceforge.net/project/showfiles.php?group_id=6241. This version comes complete with winesetup (Mandrake's package doesn't).\par
+       3. Run winesetup as normal user (not root) (and create a fake_windows directory).\par
+       4. Get the free Lotus Viewer for Windows from here: http://www.lotus.com/products/smrtsuite.nsf/wPages/smartsuite?OpenDocument (the Win95/NT version).\par
+       5. Install it using wine (as a normal user): wine kvlot32.exe\par
+       6. It should now be installed in ~/.wine/fake_windows/Program Files/Verity/KVLotus\par
+       7. Run the program with wine kvlotus.exe\par
+       8. You can now view Lotus files under Linux :-) Copy and paste into OOo.... \par
+\par
+    It is also worth mentioning that on the Windows platform, getting the Lotus Keyview viewer works with this copy & paste method.\par
+\par
+4. Package\par
+\par
+4.1. How do I change the page layout from Portrait to Landscape?\par
+    This is where Page Formatting comes in. Format -> Page brings up the "Page Style" pop-up. Here, in the Page tab, you can change the Orientation from Portrait to Landscape, and vice versa. Control of the page format applies here (US Letter, A4, A3, etc...), as does page margin settings.\par
+\par
+4.2. How do I get my scanner working under OpenOffice.org?\par
+    In Windows, this is as simple as Insert -> Graphics -> Scan; as long as you have a working scanner with TWAIN support, you're fine.\par
+\par
+    In Linux however, there is no direct scanner support. The source can't be detected, so a workaround is to scan an image via The GIMP and then import the image via Insert -> Graphics -> From File. However, if you're willing to get your hands dirty, as the root user on Linux, perform ln -s /usr/lib/libsane.so.1 /usr/local/lib/libsane.so and the scanner will start working! (What that does is that it makes a soft-link called libsane.so; if your libsane.so.1 isn't located in /usr/lib, just execute a "locate libsane" for instance to find it).\par
+\par
+4.3. How do I turn AutoSave on?\par
+    AutoSave is disabled by default. To enable it, Tools -> Options, and then go to the Load/Save -> General tab. Tick the "AutoSave every" option and enter a time. Here you have the choice to also tick the "Always create backup copy" option.\par
+\par
+4.4. I use Microsoft Office, but now I can't insert Manual Breaks from the keyboard anymore!\par
+    OpenOffice.org uses the Ctrl+Enter combination, instead of Alt+Enter, like you may be used to.\par
+\par
+4.5. Where is the Zoom function?\par
+    The zoom percent is normally visible in the status bar. If you right click on it, you should be able to select a zoom - such as Optimal or 100%. Mouse-wheel zoom support exists, but you've first got to hold down the Control key, and then scroll.\par
+\par
+4.6. How can I dock the Stylist, Navigator, and other floating windows?\par
+    To dock a floating window, press the Control key, and double-click on the white/grey area of the window to dock. To undock it, repeat it on what you want undocked.\par
+\par
+4.7. How can I do a batch conversion of files to OpenOffice.org file formats?\par
+    Use File ->AutoPilot -> Document Converter. This can convert directories worth of, for example, Word documents to Writer documents. And its automated as well!\par
+\par
+4.8. How do I improve jagged font effects?\par
+    To change the fonts used in menus, go to Tools -> Options -> OpenOffice.org -> Fonts, check the "Apply replacement table" option, and in the "Font" box, type "Andale Sans UI", and in the "Replace with" drop-down, select the desired font. This will replace the default Andale Sans UI with something more smoother.\par
+\par
+4.9. What are the different PDF Export qualities?\par
+    In OpenOffice.org, when you click File -> Export as PDF, you're given options as to what quality you would like the PDF to be in:\par
+\par
+        * Screen optimized (smallest file size) - this compresses graphics in a lossy form, so some fine details will be lost. Medium quality only, 600dpi resolution.\par
+        * Print optimized - text and image resolution for good laser printing. High quality, 1200dpi resolution.\par
+        * Press optimized - sharpest text and image output. Maximum quality, 2400dpi resolution. \par
+\par
+\par
+\par
+4.10. How do I add more fonts to OpenOffice.org?\par
+    You need to use the spadmin utility, located in your OpenOffice.org directory. Running this utility gives you a pop-up, with an option to click "Fonts" and add it.\par
+\par
+    If you don't want the fonts copied from their directory, you can tick the option to "Create soft links only". This makes a "short-cut" and allows OpenOffice.org to know about the new fonts.\par
+\par
+4.11. I'm having trouble with fonts, is there a solution?\par
+    Yes. You'll be glad to learn that Christof Pintaske has written an excellent font troubleshooting guide.\par
+\par
+5. Writer\par
+\par
+5.1. Where is the word count feature?\par
+    This is seemingly a well-hidden feature that folks always seem to miss. To get a word count, you go to File -> Properties -> Statistics.\par
+\par
+5.2. Is there a word count feature for a selection of text?\par
+    Currently, this does not exist. But with the addition of a word count macro this feature is then available.\par
+\par
+5.3. Is there a grammar checker?\par
+    OpenOffice.org doesn't have a grammar checker implemented. There has been rumour that one will be, but no formal announcement as of yet.\par
+\par
+5.4. Is there a format painter in Writer?\par
+    No, but the Stylist (F11 key, or Format -> Stylist) has what is referred to as a "Fill Format Mode". It however relies on a pre-existing Style, and can't pick up ad-hoc formatting. To make use of the Stylist, select a Style, click the "Fill Format Mode" icon, and click the text you want to change the style for.\par
+\par
+5.5. How do I hide a blank address line when doing a mail merge?\par
+    Mail addressing letters or envelopes have a different number of lines in their address. The following method will show you how to add a blank line/field via a mail merge known as a 'Hidden Paragraph', which basically hides an entire line based on the testing of a condition parameter.\par
+\par
+       1. Place cursor immediately in front of the shaded field you wish to hide if it is blank\par
+       2. Select Insert -> Fields -> Other\par
+       3. Click the Functions tab\par
+       4. Select 'Hidden Paragraph' in the 'Type' section\par
+       5. Type "NOT field-name" in the 'Condition' box, where field-name is the name of the mail merge/form letter field\par
+       6. Click the 'Insert' button\par
+       7. Click the 'Close' button\par
+       8. Do the mail merge \par
+\par
+    This will only work in OpenOffice.org 1.1, which is the current release.\par
+\par
+6. Calc\par
+\par
+6.1. Can I use a spreadsheet file with more than 32,000 rows?\par
+    Calc is currently limited to using 32,000 rows. The row limit issue is well known, and it is currently a limitation in comparison to Microsoft Office 2000, which has a limit set at 65536 rows.\par
+\par
+6.2. Adding trailing characters to a cell\par
+    If what you have in columns are index numbers like "DCP_5509" and you want to add a file suffix for instance like "myparty.jpg" to the end. If the "DCP_5509" and all other names are in column B (so assume the first entry is in B1), then we simply use =CONCATENATE(B1;"myparty.jpg"). Now, apply this to the entire column, and you'll have "DCP_5509myparty.jpg" and the like.\par
+\par
+6.3. How do I utilise TAB-delimited files?\par
+    To open it, the general suggestion is to rename the file to a .csv (Comma Separated Values) file, and then when opening it and asked about the separator, selecte Tab.\par
+\par
+    To save it, you Save As a "Text CSV", and when asked for a Field Delimiter, select \{Tab\}, instead of ",".\par
+\par
+6.4. Notes within cells - how are they displayed?\par
+    To create a Note for a cell, Insert -> Note is what is used. But to view it just upon hovering over the cell, instead of having to right-click on the cell and select "Show Note", you need to enable the Tips selection. Do this by clicking on Help -> Tips. As long as the tick is displayed next to Tips, Notes for cells will always be displayed when the mouse hovers over the said cell.\par
+\par
+6.5. Where is the Word Wrap feature in Calc?\par
+    To get text word wrapped within a cell, right-click the cell (or Format -> Cells), go to the Alignment tab, and under Properties, tick Automatic line break. After hitting the OK button, the contents of the cell would be wrapped to fit it.\par
+\par
+6.6. Why does Calc print out all the worksheets in the spreadsheet?\par
+    By default, Calc is configured to do just that. But changing this action so that it performs that only the current sheet is printed is as simple as going to File -> Print -> Options and then ticking the Print only selected sheets for Document. To make the change permanent for all occurances of OOo Calc, go to Tools -> Options -> Spreadsheet -> Print and select the same option: Print only selected sheets for Document.\par
+\par
+6.7. Why does deleting Auto-filtered rows remove my other rows too?\par
+    When using Calc Auto-filters, selections include filtered and hidden rows, so deleting some rows will delete all rows. To delete the rows, it is necessary to select the first row, then Ctrl+click each additional row, before deleting.\par
+\par
+6.8. If a cell is centre-justified, and the text is wider than the cell, it automatically left-justifies.\par
+    This is a known Calc bug, with issue #1171. Vote for it to have it changed. A workaround however, is to merge the cells with those adjacent, and apply the centre justify to the merged cell.\par
+\par
+6.9. My formula from an Excel worksheet doesn't work!\par
+    This can be caused by many reasons, with the most common reason being the fact that OpenOffice.org uses semi-colons (;) between arguments, instead of a comma (,) like in Excel.\par
+\par
+6.10. I have a custom number format that I use, but Calc forgets it.\par
+    For Calc to remember the preferred number formats, add them to your default, or current document template.\par
+\par
+7. Impress\par
+\par
+7.1. Getting 3-slides per page for printouts\par
+    Folks that have had PowerPoint will realise that this is somewhat a useful method of printing out slides. To do this in OOo's Impress, you go to: View -> Master -> Handout. When you're there, choose Format -> Modify Layout.\par
+\par
+7.2. Creating Macromedia Flash shows\par
+    With OpenOffice.org 1.1 Beta 2, you can now export your presentations as Macromedia Flash (.swf) files, so that they can be viewed with a web browser easily. To do this, File -> Export and at the File Format option, choose "Macromedia Flash (SWF)". You can now play the presentation in your web browser or upload it for others to see.\par
+\par
+7.3. Why are the holes filled within my Flash presentations?\par
+    A bug in exporting to Flash on systems that use non-TrueType fonts exists, in the sense that it fills up all the holes within text. For example, an "O" will have its middle-bit filled up. The main solution to this is to use TrueType fonts, and if you're wondering how this is done on Linux, the Bitstream Vera fonts apply. This bug exists even till 1.1 RC3.\par
+\par
+7.4. How do I get PDF based handouts?\par
+    Before the official "Export as PDF" option, you had a PDF Converter within the printing options; it doesn't exist by default now. So if you want to export to PDF, and not have it be 1 slide, as 1 page in the PDF file, you need to make sure the Handout view has been set correctly. Make sure View -> Master -> Handout is setup as you want it to be. Now you need to add the PDF Converter as a "printer" in spadmin. For this to work, GhostScript must be installed (works well in Linux).\par
+\par
+    Now, once the Printer is setup (and titled PDF Converter), you can print the Impress document to the PDF Converter, and instead of printing slides, just print the Handout (get that from the Options menu). This will print to a PDF file, a "handout" view of your presentation.\par
+\par
+8. Database\par
+\par
+8.1. Is there database support in OpenOffice.org?\par
+    Yes, there most certainly is! There are several useful resources that will help you get going:\par
+\par
+        * OpenOffice.org DBA Project - The official site, with useful FAQs and HOWTO guides to set you on the right track.\par
+        * OpenOffice.org, unixODBC and MySQL - a great guide, tailored to Red Hat 9 mainly, but excellent when it comes to OOo integration with MySQL. Comes with screenshots too! \par
+\par
+\par
+\par
+8.2. Where is Microsoft Access?\par
+    There really is not an "Access" so to speak, but with regards to databases, there's a good article on how to get Access like functionality in OpenOffice.org written by Jonathon Coombes.\par
+\par
+8.3. How do I access the Mozilla address book with a different profile?\par
+    There's a way to import Mozilla Profiles, and the address book that it has. By default, it imports the profile for the default profile, but you can do it for a different profile, i.e. force OpenOffice.org to find a different source. Read the Mozilla Profile HOWTO that the DBA project has written.\par
+\par
+8.4. How do I access data from Ximian Evolution?\par
+    You require Evolution 1.4 or higher, and with this, you can integrate the address book with OpenOffice.org. In the Data Source administration dialog, or even the Address Book Auto Pilot feature (File -> AutoPilot -> Address Data Source), Evolution appears as a new type in addition to what is currently already there.\par
+\par
+8.5. How do I get my Microsoft Access files converted?\par
+    With the help of MDB Tools, your Microsoft Access databases and schemas can be converted to MySQL, Oracle, Sybase, or PostgreSQL, and OpenOffice.org works with these databases as a backend. Note that this is not part of the OpenOffice.org package.\par
+\par
+9. Misc\par
+\par
+9.1. Is there a way to print a batch of files without opening each of them in OOo?\par
+    In Linux, this would be done in the form of a shell script.\par
+\par
+    #!/bin/sh\par
+    for i in *.doc *.sxw\par
+    do\par
+    soffice -pt "printername" $i\par
+    done\par
+\par
+    The printername is what you set as the default printer for OOo. Executing that shell script, prints all .doc and .sxw files to the printer.\par
+\par
+9.2. How do I start OOo quicker? Its currently so slow!\par
+    OOo takes quite a while to startup, but newer versions seem to have improved on this problem. In Windows, there is a file called quickstart.exe, but in Linux you have to download a package called oooqs. For KDE, OpenOffice.org Quickstarter sits in the system tray; for GNOME, there is a package called ooqstart-gnome. The other alternative is to run at startup the following command:\par
+        soffice.bin -quickstart -plugin\par
+\par
+    Keep in mind that soffice.bin is located in /home/username/.openoffice.\par
+\par
+9.3. Where do I download dictionaries? Also, where do I download dictionaries for other languages?\par
+    The Spelling, Hyphenation and Thesaurus Dictionaries: Download/Installation page at OpenOffice.org will be of help. Here they have localised dictionaries as well.\par
+\par
+    A tool for those running the Linux version of OpenOffice.org that would come in handy is the OpenOffice.org Unix Dictionary Installer. This a front-end GTK+ application that makes the installation task so much easier for the end-user.\par
+\par
+9.4. Where do I get help for writing macros?\par
+    There are several sites with tutorials on this:\par
+\par
+        * OpenOffice.org Scripting Guide - Official from the folk at OpenOffice.org.\par
+        * Donna's tutorial for macros\par
+        * Andrew Brown's Useful and Instructive macros - great site with lots of macros for features that seem to be missing from OOo.\par
+        * Andrew's Macro Information - this is pretty much a book on macro creation and usage. Very useful guide, spanning over 200 pages.\par
+        * OOoMacros - Macros for OpenOffice.org, which has totally free macros for download. \par
+\par
+\par
+\par
+9.5. How do I start another application instead of the default Writer?\par
+    This works in Linux (and most likely Solaris; basically where there's a command line!), and what you need to do is go to the directory path where OpenOffice.org is installed, and execute ./soffice -help. This will display options that you could pass it, so that different things happen. This works with the 1.1 Beta onwards.\par
+\par
+    It is also notable that in the OpenOffice.org directory, under the program folder, you can run various sh scripts that are titled like scalc (for Calc), smath (for Math), and the like. These are pre-scripted commands, as above.\par
+\par
+9.6. Can I edit PDF files?\par
+    No, we only have an export filter working, not an import filter. KOffice (on Linux) is said to have PDF editing capabilities.\par
+\par
+9.7. How do I get the recent version number?\par
+    In OpenOffice.org, if you're debugging an application, its useful to know what the build number and release for the software is. Going to Help -> About OpenOffice.org and hitting the Ctrl + SDT keystrokes, the build number will scroll by, as well as the credits.\par
+\par
+Contributors\par
+\par
+A lot of people have helped make this project what it's worth. Some make a few contributions and they end up in the changelog. Others however made (or still make) a large impact on this entire FAQ. They are:\par
+\par
+    * Ryan Singer\par
+    * Richart Trout, for all the countless Q&A's his team comes up with\par
+    * Nicu Buculei, the ideas still keep coming\par
+    * Dan Kegel, for bug related notes\par
+    * Alfred & Clara, the usability questions were excellent\par
+    * Serena Dhana, for starting me on the path of completing work! \par
+\par
+Released under the Public Documentation License.\par
+OpenOffice.org | bytebot.net\par
+\par
+Copyright \'a9 2003 Colin Charles byte@aeon.com.my & Sun Microsystems \'ae under the Joint Copyright Agreement. \par
+}
+ 
