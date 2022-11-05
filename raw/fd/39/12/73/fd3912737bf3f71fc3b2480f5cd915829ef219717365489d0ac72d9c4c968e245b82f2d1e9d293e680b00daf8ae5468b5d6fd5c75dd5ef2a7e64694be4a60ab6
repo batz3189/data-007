@@ -1,0 +1,547 @@
+本文简要地介绍了现代密码学的一些基础理论，供参考。
+
+　　1 加密技术概述
+
+　　一个密码系统的安全性只在于密钥的保密性，而不在算法的保密性。
+
+　　对纯数据的加密的确是这样。对于你不愿意让他看到这些数据（数据的明文）的人，用可靠的加密算法，只要破解者不知道被加密数据的密码，他就不可解读这些数据。
+
+　　但是，软件的加密不同于数据的加密，它只能是“隐藏”。不管你愿意不愿意让他（合法用户，或 Cracker）看见这些数据（软件的明文），软件最终总要在机器上运行，对机器，它就必须是明文。既然机器可以“看见”这些明文，那么 Cracker，通过一些技术，也可以看到这些明文。
+
+　　于是，从理论上，任何软件加密技术都可以破解。只是破解的难度不同而已。有的要让最高明的 Cracker 忙上几个月，有的可能不费吹灰之力，就被破解了。
+
+　　所以，反盗版的任务（技术上的反盗版，而非行政上的反盗版）就是增加 Cracker 的破解难度。让他们花费在破解软件上的成本，比他破解这个软件的获利还要高。这样 Cracker 的破解变得毫无意义——谁会花比正版软件更多的钱去买盗版软件 ？
+
+　　2 密码学简介
+
+　　2.1 概念
+
+　　(1) 发送者和接收者
+
+　　假设发送者想发送消息给接收者，且想安全地发送信息：她想确信偷听者不能阅读发送的消息。
+
+　　(2) 消息和加密
+
+　　消息被称为明文。用某种方法伪装消息以隐藏它的内容的过程称为加密，加了密的消息称为密文，而把密文转变为明文的过程称为解密。
+
+　　明文用M（消息）或P（明文）表示，它可能是比特流（文本文件、位图、数字化的语音流或数字化的视频图像）。至于涉及到计算机，P是简单的二进制数据。明文可被传送或存储，无论在哪种情况，M指待加密的消息。
+
+　　密文用C表示，它也是二进制数据，有时和M一样大，有时稍大（通过压缩和加密的结合，C有可能比P小些。然而，单单加密通常达不到这一点）。加密函数E作用于M得到密文C，用数学表示为：
+
+　　E（M）=C.
+
+　　相反地，解密函数D作用于C产生M
+
+　　D（C）=M.
+
+　　先加密后再解密消息，原始的明文将恢复出来，下面的等式必须成立：
+
+　　D（E（M））=M
+
+　　(3) 鉴别、完整性和抗抵赖
+
+　　除了提供机密性外，密码学通常有其它的作用：.
+
+　　(a) 鉴别
+
+　　消息的接收者应该能够确认消息的来源；入侵者不可能伪装成他人。
+
+　　(b) 完整性检验
+
+　　消息的接收者应该能够验证在传送过程中消息没有被修改；入侵者不可能用假消息代替合法消息。
+
+　　(c) 抗抵赖
+
+　　发送者事后不可能虚假地否认他发送的消息。
+
+　　(4) 算法和密钥
+
+　　密码算法也叫密码，是用于加密和解密的数学函数。（通常情况下，有两个相关的函数：一个用作加密，另一个用作解密）
+
+　　如果算法的保密性是基于保持算法的秘密，这种算法称为受限制的算法。受限制的算法具有历史意义，但按现在的标准，它们的保密性已远远不够。大的或经常变换的用户组织不能使用它们，因为每有一个用户离开这个组织，其它的用户就必须改换另外不同的算法。如果有人无意暴露了这个秘密，所有人都必须改变他们的算法。
+
+　　更糟的是，受限制的密码算法不可能进行质量控制或标准化。每个用户组织必须有他们自己的唯一算法。这样的组织不可能采用流行的硬件或软件产品。但窃听者却可以买到这些流行产品并学习算法，于是用户不得不自己编写算法并予以实现，如果这个组织中没有好的密码学家，那么他们就无法知道他们是否拥有安全的算法。
+
+　　尽管有这些主要缺陷，受限制的算法对低密级的应用来说还是很流行的，用户或者没有认识到或者不在乎他们系统中内在的问题。
+
+　　现代密码学用密钥解决了这个问题，密钥用K表示。K可以是很多数值里的任意值。密钥K的可能值的范围叫做密钥空间。加密和解密运算都使用这个密钥（即运算都依赖于密钥，并用K作为下标表示），这样，加/解密函数现在变成：
+
+　　EK(M)=C
+
+　　DK(C)=M.
+
+　　这些函数具有下面的特性：
+
+　　DK（EK（M））=M.
+
+　　有些算法使用不同的加密密钥和解密密钥，也就是说加密密钥K1与相应的解密密钥K2不同，在这种情况下：
+
+　　EK1(M)=C
+
+　　DK2(C)=M
+
+　　DK2 (EK1(M))=M
+
+　　所有这些算法的安全性都基于密钥的安全性；而不是基于算法的细节的安全性。这就意味着算法可以公开，也可以被分析，可以大量生产使用算法的产品，即使偷听者知道你的算法也没有关系；如果他不知道你使用的具体密钥，他就不可能阅读你的消息。
+
+　　密码系统由算法、以及所有可能的明文、密文和密钥组成的。
+
+　　基于密钥的算法通常有两类：对称算法和公开密钥算法。下面将分别介绍：
+
+　　2.2 对称密码算法
+
+　　对称算法有时又叫传统密码算法，就是加密密钥能够从解密密钥中推算出来，反过来也成立。在大多数对称算法中，加/解密密钥是相同的。这些算法也叫秘密密钥算法或单密钥算法，它要求发送者和接收者在安全通信之前，商定一个密钥。对称算法的安全性依赖于密钥，泄漏密钥就意味着任何人都能对消息进行加/解密。只要通信需要保密，密钥就必须保密。
+
+　　对称算法的加密和解密表示为：
+
+　　EK（M）=C
+
+　　DK（C）=M
+
+　　对称算法可分为两类。一次只对明文中的单个比特（有时对字节）运算的算法称为序列算法或序列密码。另一类算法是对明文的一组比特亚行运算，这些比特组称为分组，相应的算法称为分组算法或分组密码。现代计算机密码算法的典型分组长度为64比特——这个长度大到足以防止分析破译，但又小到足以方便使用（在计算机出现前，算法普遍地每次只对明文的一个字符运算，可认为是序列密码对字符序列的运算）。
+
+　　2.3 公开密码算法
+
+　　公开密钥算法（也叫非对称算法）是这样设计的：用作加密的密钥不同于用作解密的密钥，而且解密密钥不能根据加密密钥计算出来（至少在合理假定的长时间内）。之所以叫做公开密钥算法，是因为加密密钥能够公开，即陌生者能用加密密钥加密信息，但只有用相应的解密密钥才能解密信息。在这些系统中，加密密钥叫做公开密钥（简称公钥），解密密钥叫做私人密钥（简称私钥）。私人密钥有时也叫秘密密钥。为了避免与对称算法混淆，此处不用秘密密钥这个名字。
+
+　　用公开密钥K加密表示为
+
+　　EK(M)=C.
+
+　　虽然公开密钥和私人密钥是不同的，但用相应的私人密钥解密可表示为：
+
+　　DK(C)=M
+
+　　有时消息用私人密钥加密而用公开密钥解密，这用于数字签名（后面将详细介绍），尽管可能产生混淆，但这些运算可分别表示为：
+
+　　EK(M)=C
+
+　　DK(C)=M
+
+　　当前的公开密码算法的速度，比起对称密码算法，要慢的多，这使得公开密码算法在大数据量的加密中应用有限。
+
+　　2.4 单向散列函数
+
+　　单向散列函数 H(M) 作用于一个任意长度的消息 M，它返回一个固定长度的散列值 h，其中 h 的长度为 m 。
+
+　　输入为任意长度且输出为固定长度的函数有很多种，但单向散列函数还有使其单向的其它特性：
+
+　　(1) 给定 M ，很容易计算 h ；
+
+　　(2) 给定 h ，根据 H(M) = h 计算 M 很难 ；
+
+　　(3) 给定 M ，要找到另一个消息 M‘ 并满足 H(M) = H(M’) 很难。
+
+　　在许多应用中，仅有单向性是不够的，还需要称之为“抗碰撞”的条件：
+
+　　要找出两个随机的消息 M 和 M‘，使 H(M) = H(M’) 满足很难。
+
+　　由于散列函数的这些特性，由于公开密码算法的计算速度往往很慢，所以，在一些密码协议中，它可以作为一个消息 M 的摘要，代替原始消息 M，让发送者为 H(M) 签名而不是对 M 签名 。
+
+　　如 SHA 散列算法用于数字签名协议 DSA中。
+
+　　2.5 数字签名
+
+　　提到数字签名就离不开公开密码系统和散列技术。
+
+　　有几种公钥算法能用作数字签名。在一些算法中，例如RSA，公钥或者私钥都可用作加密。用你的私钥加密文件，你就拥有安全的数字签名。在其它情况下，如DSA，算法便区分开来了??数字签名算法不能用于加密。这种思想首先由Diffie和Hellman提出 。
+
+　　基本协议是简单的 ：
+
+　　(1) A 用她的私钥对文件加密，从而对文件签名。
+
+　　(2) A 将签名的文件传给B。
+
+　　(3) B用A的公钥解密文件，从而验证签名。
+
+　　这个协议中，只需要证明A的公钥的确是她的。如果B不能完成第（3）步，那么他知道签名是无效的。
+
+　　这个协议也满足以下特征：
+
+　　(1) 签名是可信的。当B用A的公钥验证信息时，他知道是由A签名的。
+
+　　(2) 签名是不可伪造的。只有A知道她的私钥。
+
+　　(3) 签名是不可重用的。签名是文件的函数，并且不可能转换成另外的文件。
+
+　　(4) 被签名的文件是不可改变的。如果文件有任何改变，文件就不可能用A的公钥验证。
+
+　　(5) 签名是不可抵赖的。B不用A的帮助就能验证A的签名。
+
+　　在实际应用中，因为公共密码算法的速度太慢，签名者往往是对消息的散列签名而不是对消息本身签名。这样做并不会降低签名的可信性。
+
+　　注：本文由计算机专业相关教材整理
+
+
+
+
+
+
+几种常见密码形式： 
+
+1、栅栏易位法。 
+
+即把将要传递的信息中的字母交替排成上下两行，再将下面一行字母排在上面一行的后边，从而形成一段密码。 
+
+举例： 
+
+TEOGSDYUTAENNHLNETAMSHVAED 
+解： 
+将字母分截开排成两行，如下 
+T E O G S D Y U T A E N N 
+H L N E T A M S H V A E D 
+再将第二行字母分别放入第一行中，得到以下结果 
+THE LONGEST DAY MUST HAVE AN END. 
+
+课后小题：请破解以下密码 
+Teieeemrynwetemryhyeoetewshwsnvraradhnhyartebcmohrie 
+
+
+
+2、恺撒移位密码。 
+
+也就是一种最简单的错位法，将字母表前移或者后错几位，例如： 
+明码表：ABCDEFGHIJKLMNOPQRSTUVWXYZ 
+密码表：DEFGHIJKLMNOPQRSTUVWXYZABC 
+这就形成了一个简单的密码表，如果我想写frzy（即明文），那么对照上面密码表编成密码也就是iucb（即密文）了。密码表可以自 
+
+己选择移几位，移动的位数也就是密钥。 
+
+课后小题：请破解以下密码 
+dtzwkzyzwjijujsixtsdtzwiwjfrx 
+
+
+
+3、进制转换密码。 
+
+比如给你一堆数字，乍一看头晕晕的，你可以观察数字的规律，将其转换为10进制数字，然后按照每个数字在字母表中的排列顺序， 
+
+拼出正确字母。 
+举例：110 10010 11010 11001 
+解： 
+很明显，这些数字都是由1和0组成，那么你很快联想到什么？二进制数，是不是？嗯，那么就试着把这些数字转换成十进制试试，得 
+
+到数字6 18 26 25，对应字母表，破解出明文为frzy，呵呵~ 
+
+课后小题：请破解以下密码 
+11 14 17 26 5 25 
+
+
+
+4、摩尔斯密码。 
+
+翻译不同，有时也叫摩尔密码。*表示滴，-表示哒，如下表所示比如滴滴哒就表示字母U，滴滴滴滴滴就表示数字5。另外请大家不要 
+
+被滴哒的形式所困，我们实际出密码的时候，有可能转换为很多种形式，例如用0和1表示，迷惑你向二进制方向考虑，等等。摩尔斯 
+
+是我们生活中非常常见的一种密码形式，例如电报就用的是这个哦。下次再看战争片，里面有发电报的，不妨自己试着破译一下电报 
+
+内容，看看导演是不是胡乱弄个密码蒙骗观众哈~由于这密码也比较简单，所以不出小题。 
+A *- B -*** C -*-* D -** E * F **-* G --* 
+H **** I ** J *--- K -*- L *-** M -- N -* 
+O --- P *--* Q --*- R *-* S *** T - 
+U **- V ***- W *-- X -**- Y -*-- Z --** 
+数字 
+0 ----- 1 *---- 2 **--- 3 ***-- 4 ****- 
+5 ***** 6 -**** 7 --*** 8 ---** 9 ----* 
+常用标点 
+句号 *-*-*- 逗号 --**-- 问号 **--** 
+长破折号 -***- 连字符 -****- 分数线 -**-* 
+
+
+
+5、字母频率密码。 
+
+关于词频问题的密码，我在这里提供英文字母的出现频率给大家，其中数字全部是出现的百分比： 
+a 8.2 b 1.5 c 2.8 d 4.3 
+e 12.7 f 2.2 g 2.0 h 6.1 
+i 7.0 j 0.2 k 0.8 l 4.0 
+m 2.4 n 6.7 o 7.5 p 1.9 
+q 0.1 r 6.0 s 6.3 t 9.1 
+u 2.8 v 1.0 w 2.4 x 0.2 
+y 2.0 z 0.1 
+词频法其实就是计算各个字母在文章中的出现频率，然后大概猜测出明码表，最后验证自己的推算是否正确。这种方法由于要统计字 
+
+母出现频率，需要花费时间较长，本人在此不举例和出题了，有兴趣的话，参考《跳舞的小人》和《金甲虫》。 
+
+
+
+6、维热纳尔方阵。 
+
+上面所说的频率分析，很容易破解较长篇幅的密文，于是维热纳尔继承前人的经验，创造出了这个维热纳尔方阵，从而克服了词频分 
+
+析轻易能够破解密码的弊端，成为一种较为强大的密码编译形式。 
+a b c d e f g h i j k l m n o p q r s t u v w x y z 
+1 B C D E F G H I J K L M N O P Q R S T U V W X Y Z A 
+2 C D E F G H I J K L M N O P Q R S T U V W X Y Z A B 
+3 D E F G H I J K L M N O P Q R S T U V W X Y Z A B C 
+4 E F G H I J K L M N O P Q R S T U V W X Y Z A B C D 
+5 F G H I J K L M N O P Q R S T U V W X Y Z A B C D E 
+6 G H I J K L M N O P Q R S T U V W X Y Z A B C D E F 
+7 H I J K L M N O P Q R S T U V W X Y Z A B C D E F G 
+8 I J K L M N O P Q R S T U V W X Y Z A B C D E F G H 
+9 J K L M N O P Q R S T U V W X Y Z A B C D E F G H I 
+10 K L M N O P Q R S T U V W X Y Z A B C D E F G H I J 
+11 L M N O P Q R S T U V W X Y Z A B C D E F G H I J K 
+12 M N O P Q R S T U V W X Y Z A B C D E F G H I J K L 
+13 N O P Q R S T U V W X Y Z A B C D E F G H I J K L M 
+14 O P Q R S T U V W X Y Z A B C D E F G H I J K L M N 
+15 P Q R S T U V W X Y Z A B C D E F G H I J K L M N O 
+16 Q R S T U V W X Y Z A B C D E F G H I J K L M N O P 
+17 R S T U V W X Y Z A B C D E F G H I J K L M N O P Q 
+18 S T U V W X Y Z A B C D E F G H I J K L M N O P Q R 
+19 T U V W X Y Z A B C D E F G H I J K L M N O P Q R S 
+20 U V W X Y Z A B C D E F G H I J K L M N O P Q R S T 
+21 V W X Y Z A B C D E F G H I J K L M N O P Q R S T U 
+22 W X Y Z A B C D E F G H I J K L M N O P Q R S T U V 
+23 X Y Z A B C D E F G H I J K L M N O P Q R S T U V W 
+24 Y Z A B C D E F G H I J K L M N O P Q R S T U V W X 
+25 Z A B C D E F G H I J K L M N O P Q R S T U V W X Y 
+26 A B C D E F G H I J K L M N O P Q R S T U V W X Y Z 
+以上就是维热纳尔方阵，它由明码表（第一行的字母）、密码表（下面26行）和密钥组成，下面我举个例子说明。 
+
+举例： 
+密钥：frzy 
+密码：qfuc 
+解：第一个字母，看以f开头第五行，对应明码表查找q字母所标示的字母为l。以此类推找出后面字母。所得明文为love。 
+这个也不出小题了，只要有密钥，再复杂的密码也能查出来，就是个查表的问题~ 
+
+
+
+
+
+一些新兴的密码形式： 
+
+1、利用键盘 
+
+无论是计算机键盘，还是收集键盘，都是出密码的好工具哦，可以用错位、或者排列形状等。使用手机键盘和这个同理。另外手机键 
+
+盘还可以在键盘的字母上做文章，例如你可以用51表示字母j，用73表示字母r等。 
+
+举例： 
+r4a6 
+这个密码利用计算机键盘，将明文字母分别向上移动一个位置，得到密文。破解结果为frzy。 
+852 74123 741236987 426978974123456 7412369 
+这排数字是不是很晕？其实很简单，对照小键盘，依次打这些字母，看组成的形状就行了。答案是I L O V E U。 
+
+课后小题：请破解以下密码 
+18 29 19 34 13 17 
+
+
+
+2、字母形状 
+
+本人曾经收到过这样一个密码短信，不幸被破解，导致发短信人被我非常严肃地奚落了一番! 
+
+前面我不记得了，只记得后面是hep poo6。这个你可以从手机里打出来，然后把手机倒过来看，形成了密码的明文，good day~~~ 
+
+课后小题：请破解以下密码 
+AnnAW T2UL 
+THpin boop YA2 
+T99W2 A 9VAH 
+MA37b 
+
+
+
+
+
+
+
+
+密码印象 
+
+（本文写于2004年的学生时代） 
+
+前言：本文是一篇人文性质的文章，并非技术文章。对密码学感兴趣的读者，可以去图书馆查阅相关的书籍，或者去报考我校密码学权威——杨义先教授的研究生。本篇重在宣扬人文理念，主要讲述了我这些年对密码方面的一些了解和随想，古典的味道比较浓。好了，诸位看官，我们开始。 
+
+Case 1 达·芬奇密码 
+
+13-3-2-21-1-1-8-5 
+O Draconian devil !（啊，严酷的魔王！） 
+Oh Lame Saint !（噢，瘸腿的圣徒！） 
+
+这是畅销小说《达·芬奇密码》里面出现的第一段密码。在故事中，卢浮宫博物馆馆长被人杀害，临死前用隐写笔在地上写下了这样一段令人费解的文字，其中隐藏了重要的信息。 
+
+主角是如何破译这段密码的呢？他通过分析发现开头的“13-3-2-21-1-1-8-5”是解密的关键所在。将这一串数字从小到大重新排列，得到“1-1-2-3-5-8-13-21”，恰好是数学中著名的斐波那契数列。这就暗示着，谜题中的文字也是经过乱序排列的。于是，经过对文字的重新排序，主角得到了明文： 
+
+Leonardo da Vinci !（莱昂纳多·达·芬奇！） 
+The Mona Lisa !（蒙娜丽莎！） 
+
+故事在这里终于出现了转机，读者从此开始了惊心动魄的密码之旅。真是给人一种茅塞顿开的感觉。 
+
+当然，这只是浩如烟海的密码世界的一个比较典型的例子。下面，就让我们切入正题。 
+
+Case 2 密码释义 
+
+使用电脑多了的人，听到“密码”一词总会想到password。其实在英语中，主要有两种对密码的解释。一个就是password，还有一个是 code。后者比较不常用一点，不过程序员（coder）对这个词还是有着比较深的感情的（笑）。 
+
+其实password和code在含义上是有着本质的区别的。对于password，我觉得称它为“口令”似乎更贴切一些。比如Windows 的开机密码，比如FTP的登陆口令，等等。其特征是把输入的一个字符串与标准答案进行比对，根据其结果来决定是否授予通过的权限。这个比对的工作是一次性的，而且原理简单。而code就不同。对于code，主要体现的是“翻译”的过程，牵涉到对信息的编码和译码。比如凯撒密钥，比如RSA算法，等等。这里面牵涉到很多数学的东西，比如对字符的分解和重组等。当然，从广义的角度讲，code的编码和译码也可以往数学以外的方面延伸，这又涉及到很多典故，在此按下不表。 
+
+本文主要讲述的，基本上是关于code的内容。 
+
+Case 3 初见密码 
+
+20.8.1.14.11/25.15.21/ 
+9/12.15.22.5/25.15.21/ 
+
+这是我小学二年级第一次接触密码这种事物时，所遇到的一段code。当时脑筋急转弯之类的东西还没有引进到大陆，我是在一本香港出版的智力游戏书籍中发现这个密码的。原文我忘了，在这里我用相同的加密方式写了一段话。 
+
+解密的方法很简单，只要把a=1，b=2，… z=26代入code，就可以非常容易地得到明文： 
+
+Thank you , I love you . 
+
+怎么样，是不是很容易？不过如果将四则运算加入译码（比如让a=2等），破译时就有一定的难度了。 
+
+这是一种很典型的古典密码。 
+
+Case 4 凯撒密钥 
+
+提到古典密码，就不能不提到著名的凯撒密钥。基本上每一本密码学方面的基础教材在提到古典密码时，都会举出凯撒密钥的例子。凯撒密钥的加密公式是： 
+
+c≡ m + k mod 26 
+
+凯撒密钥又称为单表代替法。其中m为明文的数据，c为加密后的数据，而k是密钥。 
+
+当年凯撒指导军团作战，使用的就是这套密码体系。比如让a=d，b=e，c=f……依此类推。 
+
+这在密码史上产生了重要的影响，不能不说是一个经典。 
+
+Case 5 珍珠港 
+
+还记得电影《珍珠港》中的战火和硝烟么？在日本偷袭珍珠港之前，美国的情报部门破译了日本的外交电报密码，但是由于当局没有重视，最后还是没能阻止悲剧的发生。 
+
+1942年4月和5月期间，在美军截获的日军通讯中，有一个“AF”名称出现的频率和次数明显增多，罗奇福特少校领导的情报小组绞尽脑汁，终于在堆积如山的侦抄电文中找到一份日军偷袭珍珠港时的电报，电文曾提到“AF”，说一架日军水上飞机需要在“AF”附近的一个小珊瑚岛上加油。因此罗奇福特推断，“AF”只能是指中途岛。为进一步证实这一推断的准确性，驻中途岛上美军奉命用浅显的明码拍发了一份作为诱饵的无线电报，谎称中途岛上的淡水设备发生了故障。果然不久，美军截获一份日军密电，电文中说：AF可能缺少淡水。一切立时真相大白了。罗奇福特小组以此为突破口，一下子破译了反映日军舰队作战计划的所有通讯。这样，尼米兹不仅清楚掌握了日军夺取中途岛的战略企图，而且还查明了其参战兵力、数量、进攻路线和作战时间，甚至连对方各舰长的名子都了如指掌。（注：这段文字摘自网络） 
+
+日军当时使用的密码体系代号为JN25，比较复杂。但是美军破译这个密码的手法却是一种非常经典的解密技术。其基本方法是，直接分析密文，根据字符出现的频率分布逆推出密码表。比如研究证明，英语文章里面26个字母的出现频率总是固定的，于是我们就可以根据统计得来的数据解析出原始的密码表。因此，单纯以字母替换为基础的密码体系是非常脆弱的，可以说是形同虚设。 
+
+Case 6 电影中的密码 
+
+与间谍或侦探有关的电影中，总会出现各种各样的密码。随着电影的发展，以电脑叛客为题材的科幻电影就更是将这一点发挥到了极致。 
+
+在电影中，似乎password的出现次数比code要多得多。在警匪片中，经常会有敌方的黑客在笔记本电脑上开着算号器破解密码的场面出现。比如《对抗性游戏》里，罪犯甚至可以通过破解旅馆电脑系统的密码来锁住所有房间的门。需要指出的是，电影里黑客所使用电脑的界面往往都非常的人性化，要么是画面华丽精美，要么可以识别自然语言。不知导演是怎么想的。嗬嗬，这是题外话:-p。 
+
+至于电影中的code，给我印象比较深的是《神秘拼图》等。这里面的code与通常的code不同。因为要考虑到观众的理解能力，电影中的 code的密钥往往与一些典故有关，比如在一本书里（比如圣经），或者在一幅画中。这些因素总是使得悬疑的情节散发出浓厚的人文气息。有时候，电影中的 code干脆就以字谜或画谜的形式出现，这就是我在前面提到的，在数学以外领域的延伸，本质上是一种隐喻。 
+
+当然，不仅仅是电影，在小说、游戏等其他艺术领域，密码也经常出现，并且总是能成为推动情节发展的关键动力。比如《达·芬奇密码》，比如福尔摩斯的一些探案故事。 
+
+Case 7 The RING 
+
+如果提到恐怖小说，不能不提到《午夜凶铃》。这也是我唯一完整读完的长篇恐怖小说。《午夜凶铃》是日本著名小说家铃木光司的作品，共有四部。其情节我就不再赘述了。需要指出的是，在小说的第二部《凶铃再现》中，作者以相当的篇幅描写了一种基于DNA的极度匪夷所思的密码。 
+
+大致的情节是：午夜凶铃的受害者由于受到怨念的影响，体内的基因产生突变。经过染色体的变异，四个碱基A，G，T，C（腺嘌呤、鸟嘌呤、胸腺嘧啶、胞嘧啶）经过组合竟然表达出了非同一般的信息。这种以染色体碱基序列作为加密载体的方式，我还真是闻所未闻。不禁对铃木光司那天马行空般的想象力感到深深的佩服。 
+
+
+
+Case 8 生命之歌 
+
+中国著名科幻小说作家王晋康曾经写过一部非常经典的小说《生命之歌》，也是关于DNA密码的。当时曾经引发了科幻界的大讨论，给我印象很深刻。 
+
+故事提出的假设是，既然DNA包含了生命的密码，那么机器如果洞悉了其中的奥秘，会不会发展成足以和人类竞争的生命形式呢？小说里面还加入了音乐的要素，即把DNA的序列编制成了旋律，即生命之歌。这个是有一定科学依据的。因为历史上确实有过把DNA序列谱写成音乐的先例（好像是个日本的演奏家，具体的我给忘了）。 
+
+这似乎又是一个隐喻。抑或是，讽刺？ 
+
+Case 9 密写术 
+
+这个话题似乎跟密码没什么关系。但是因为实在很有趣，我就写下来了。 
+
+所谓密写，就是用特殊的方式写信息，然后只能用特殊的方式才能看到。记得中学语文里有一篇关于鲁迅的课文，提到一种用米汤进行的密写方式。即用毛笔或手指蘸着米汤写字，只有纸张浸水后才能看到。后来看了一些影视作品，经常出现的场面是一张羊皮纸在熊熊的火中现出字迹。最夸张的是漫画《城市猎人》中有一节，居然是在镜子的背面进行密写，然后将镜子反光在墙上投影，从中就会显现出字样。 
+
+下面介绍一种非常简单的密写方法。首先，准备两张白纸和一盆水。将其中的一张白纸在盆内浸湿，铺开在桌面，摊平。将另外一张干燥的白纸覆盖在湿的那张纸上，然后在其上书写文字。写完后，将干燥的纸张拿走，毁掉，然后把那张浸湿的纸晒干。好了，晒干后的那张纸看上去将仍然是一张白纸，可是一旦浸湿，就会显现出字样。密写成功。 
+
+这个方法我在初中玩过多次，屡试不爽。 
+
+Case 10 矩阵博士 
+
+差点忘了，谈论密码就不能不提到一位美国人，大名鼎鼎的矩阵博士。他的真名我忘了，不过他在美国应该是家喻户晓。《科学美国人》杂志曾经对他做过长期的采访。矩阵博士的职业是“数学巫师”，就是通过数学来搞一些玄学的东西，比如算命等等。此人数学天赋极高，可惜没有用在正道上。《科学美国人》对他的专访也是揭露了很多他的骗术。比如，他使用一个环形的字母表来给人测字，或是对人梦中出现的数字给予玄妙的解释（举例：有个人梦中经常出现7734这个数，矩阵博士给它倒过来写，结果变成了hell，即地狱）。他可以通过一美元纸币的隐喻预测肯尼迪的被刺。他甚至宣称开发出了可以写诗的电脑程序。他还曾因为非法变造美元货币（通过特殊的裁剪粘贴使得14张20美元纸币变为15张）而遭到通缉。最后他的数学“天才”终于引起了当局的注意，被招安到了中央情报局，从事密码方面的研究。 
+
+《科学美国人》的专栏作家马丁·加德纳为此曾经专门写过一本书，介绍阵图博士的把戏。我看的是80年代的中译本，取名居然叫《科学算命之谜》，现在的译本改为《矩阵博士的魔法数》，有兴趣的读者不妨找来一读。 
+
+Case 11 圣经密码 
+
+上个世纪在西方世界闹得沸沸扬扬的一本书《圣经密码》，将密码的故事推演到了极致。此书可能是因为意识形态的原因在大陆没有出版，因此我只能读到盗版的台译本。 
+
+90年代，美国《华盛顿邮报》记者德罗斯宁出版了一本叫作《圣经密码》的书，记述了有关圣经密码的破译方法，及密码对过去一些重大历史事件的印证和对未来世界的耸人听闻的预测。圣经密码的发现者在1994年预测拉宾遇刺，结果1995年悲剧果然发生了。当时在全世界引发了轰动，也引发了科学界与宗教界的激烈辩论。 
+
+所谓圣经密码，就是采取均衡间字法可以发现圣经中隐藏的信息，即“上帝的启示”。 研究人员首先将原版希伯莱文的《圣经》旧约输入计算机，去掉所有的标点，使之成为一整篇由344805个希伯莱文字母组成的文字，然后运用均衡间字法对整篇经文进行搜寻，结果获得惊人的发现。神奇的圣经密码不仅印证了许多重大的历史事件，甚至似乎还可以预测未来世界。比如，使用计算机对圣经密码进行分析，搜索“第二次世界大战”，可以找到“希特勒”的名字，而且周围还环绕着诸如“纳粹”、“屠杀”等字眼。让人感觉十分的匪夷所思。 
+
+这真的是来自上帝的启示吗？《圣经密码》一出版就招致了各方面的异议和指责，至今仍然是科学界与宗教界备受争议的话题。不过历史最后必将作出公正的判断。 
+
+今年年初，《圣经密码2》终于出版，我不由期待中文版的面世。当然，大陆的正版看来是没有指望了（笑）。 
+
+Case 12 一道题目 
+
+12.6.7.9.19.23.9.12/9.20/3.16.17.15/ 
+9.21/9.20/20.9.22.23.12/ 
+
+文章的结尾给大家出一道题目。请破译上面的两行密码。这是前面提到的古典密码的一个强化版本，有兴趣的朋友可以试试身手。由于密码的原理很简单，我就不给提示了。 
+
+感谢您看完这篇文章，欢迎提出各种意见。 
+
+http://www.douban.com/note/86032835/?post=ok#last
+
+
+
+
+  密码学
+密码是通信双方按约定的法则进行信息特殊变换的一种重要保密手段。依照这些法则，变明文为密文，称为加密变换；变密文为明文，称为脱密变换。密码在早期仅对文字或数码进行加、脱密变换，随着通信技术的发展，对语音、图像、数据等都可实施加、脱密变换。 　　密码学是在编码与破译的斗争实践中逐步发展起来的，并随着先进科学技术的应用，已成为一门综合性的尖端技术科学。它与语言学、数学、电子学、声学、信息论、计算机科学等有着广泛而密切的联系。它的现实研究成果，特别是各国政府现用的密码编制及破译手段都具有高度的机密性。 　　  密码学
+进行明密变换的法则，称为密码的体制。指示这种变换的参数，称为密钥。它们是密码编制的重要组成部分。密码体制的基本类型可以分为四种：错乱－－按照规定的图形和线路，改变明文字母或数码等的位置成为密文；代替－－用一个或多个代替表将明文字母或数码等代替为密文；密本－－用预先编定的字母或数字密码组，代替一定的词组单词等变明文为密文；加乱－－用有限元素组成的一串序列作为乱数，按规定的算法，同明文序列相结合变成密文。以上四种密码体制，既可单独使用，也可混合使用 ，以编制出各种复杂度很高的实用密码。 　　20世纪70年代以来，一些学者提出了公开密钥体制，即运用单向函数的数学原理，以实现加、脱密密钥的分离。加密密钥是公开的，脱密密钥是保密的。这种新的密码体制，引起了密码学界的广泛注意和探讨。 　　利用文字和密码的规律，在一定条件下，采取各种技术手段，通过对截取密文的分析，以求得明文，还原密码编制，即破译密码。破译不同强度的密码，对条件的要求也不相同，甚至很不相同。 　　中国古代秘密通信的手段，已有一些近于密码的雏形。宋曾公亮、丁度等编撰《武经总要》“字验”记载，北宋前期，在作战中曾用一首五言律诗的40个汉字，分别代表40种情况或要求，这种方式已具有了密本体制的特点。 　　  密码学
+1871年，由上海大北水线电报公司选用6899个汉字，代以四码数字，成为中国最初的商用明码本，同时也设计了由明码本改编为密本及进行加乱的方法。在此基础上，逐步发展为各种比较复杂的密码。 　　在欧洲，公元前405年，斯巴达的将领来山得使用了原始的错乱密码；公元前一世纪，古罗马皇帝凯撒曾使用有序的单表代替密码；之后逐步发展为密本、多表代替及加乱等各种密码体制。 　　二十世纪初，产生了最初的可以实用的机械式和电动式密码机，同时出现了商业密码机公司和市场。60年代后，电子密码机得到较快的发展和广泛的应用，使密码的发展进入了一个新的阶段。 　　密码破译是随着密码的使用而逐步产生和发展的。1412年，波斯人卡勒卡尚迪所编的百科全书中载有破译简单代替密码的方法。到16世纪末期，欧洲一些国家设有专职的破译人员，以破译截获的密信。密码破译技术有了相当的发展。1863年普鲁士人卡西斯基所著《密码和破译技术》，以及1883年法国人克尔克霍夫所著《军事密码学》等著作，都对密码学的理论和方法做过一些论述和探讨。1949年美国人香农发表了《秘密体制的通信理论》一文，应用信息论的原理分析了密码学中的一些基本问题。 　　自19世纪以来，由于电报特别是无线电报的广泛使用，为密码通信和第三者的截收都提供了极为有利的条件。通信保密和侦收破译形成了一条斗争十分激烈的隐蔽战线。 　　1917年，英国破译了德国外长齐默尔曼的电报，促成了美国对德宣战。1942年，美国从破译日本海军密报中，获悉日军对中途岛地区的作战意图和兵力部署，从而能以劣势兵力击破日本海军的主力，扭转了太平洋地区的战局。在保卫英伦三岛和其他许多著名的历史事件中，密码破译的成功都起到了极其重要的作用，这些事例也从反面说明了密码保密的重要地位和意义。 　　当今世界各主要国家的政府都十分重视密码工作，有的设立庞大机构，拨出巨额经费，集中数以万计的专家和科技人员，投入大量高速的电子计算机和其他先进设备进行工作。与此同时，各民间企业和学术界也对密码日益重视，不少数学家、计算机学家和其他有关学科的专家也投身于密码学的研究行列，更加速了密码学的发展。 　　  密码学
+现在密码已经成为单独的学科，从传统意义上来说，密码学是研究如何把信息转换成一种隐蔽的方式并阻止其他人得到它。 　　密码学是一门跨学科科目，从很多领域衍生而来：它可以被看做是信息理论，却使用了大量的数学领域的工具，众所周知的如数论和有限数学。 　　原始的信息，也就是需要被密码保护的信息，被称为明文。加密是把原始信息转换成不可读形式，也就是密码的过程。解密是加密的逆过程，从加密过的信息中得到原始信息。cipher是加密和解密时使用的算法。 　　最早的隐写术只需纸笔，现在称为经典密码学。其两大类别为置换加密法，将字母的顺序重新排列；替换加密法，将一组字母换成其他字母或符号。经典加密法的资讯易受统计的攻破，资料越多，破解就更容易，使用分析频率就是好办法。经典密码学现在仍未消失，经常出现在智力游戏之中。在二十世纪早期，包括转轮机在内的一些机械设备被发明出来用于加密，其中最著名的是用于第二次世界大战的密码机Enigma。这些机器产生的密码相当大地增加了密码分析的难度。比如针对Enigma各种各样的攻击，在付出了相当大的努力后才得以成功。
+编辑本段传统密码学
+　　Autokey密码 　　置换密码 　　二字母组代替密码 (by Charles Wheatstone) 　　多字母替换密码 　　希尔密码 　　维吉尼亚密码 　　替换密码 　　凯撒密码 　　ROT13 　　仿射密码 　　Atbash密码 　　换位密码 　　Scytale 　　Grille密码 　　VIC密码 (一种复杂的手工密码，在五十年代早期被至少一名苏联间谍使用过，在当时是十分安全的) 　　对传统密码学的攻击 　　频率分析 　　重合指数
+编辑本段现代算法，方法评估与选择工程
+标准机构
+　　the Federal Information Processing Standards Publication program (run by NIST to produce standards in many areas to guide operations of the US Federal government; many FIPS Pubs are cryptography related, ongoing) 　　the ANSI standardization process (produces many standards in many areas; some are cryptography related, ongoing) 　　ISO standardization process (produces many standards in many areas; some are cryptography related, ongoing) 　　IEEE standardization process (produces many standards in many areas; some are cryptography related, ongoing) 　　IETF standardization process (produces many standards (called RFCs) in many areas; some are cryptography related, ongoing) 　　See Cryptography standards
+加密组织
+　　NSA internal evaluation/selections (surely extensive, nothing is publicly known of the process or its results for internal use; NSA is charged with assisting NIST in its cryptographic responsibilities) 　　GCHQ internal evaluation/selections (surely extensive, nothing is publicly known of the process or its results for GCHQ use; a division of GCHQ is charged with developing and recommending cryptographic standards for the UK government) 　　DSD Australian SIGINT agency - part of ECHELON 　　Communications Security Establishment (CSE) － Canadian intelligence agency.
+公开的努力成果
+　　the DES selection (NBS selection process, ended 1976) 　　the RIPE division of the RACE project (sponsored by the European Union, ended mid-'80s) 　　the AES competition (a 'break-off' sponsored by NIST; ended 2001) 　　the NESSIE Project (evaluation/selection program sponsored by the European Union; ended 2002) 　　the CRYPTREC program (Japanese government sponsored evaluation/recommendation project; draft recommendations published 2003) 　　the Internet Engineering Task Force (technical body responsible for Internet standards -- the Request for Comment series: ongoing) 　　the CrypTool project (eLearning programme in English and German; freeware; exhaustive educational tool about cryptography and cryptanalysis)
+加密散列函数 (消息摘要算法，MD算法)
+　　 　　加密散列函数 　　消息认证码 　　Keyed-hash message authentication code 　　EMAC (NESSIE selection MAC) 　　HMAC (NESSIE selection MAC; ISO/IEC 9797-1, FIPS and IETF RFC) 　　TTMAC 也称 Two-Track-MAC (NESSIE selection MAC; K.U.Leuven (Belgium) & debis AG (Germany)) 　　UMAC (NESSIE selection MAC; Intel, UNevada Reno, IBM, Technion, & UCal Davis) 　　MD5 (系列消息摘要算法之一，由MIT的Ron Rivest教授提出; 128位摘要) 　　SHA-1 (NSA开发的160位摘要,FIPS标准之一;第一个发行发行版本被发现有缺陷而被该版本代替; NIST/NSA 已经发布了几个具有更长'摘要'长度的变种; CRYPTREC推荐 (limited)) 　　SHA-256 (NESSIE 系列消息摘要算法, FIPS标准之一180-2,摘要长度256位 CRYPTREC recommendation) 　　SHA-384 (NESSIE 列消息摘要算法, FIPS标准之一180-2,摘要长度384位; CRYPTREC recommendation) 　　SHA-512 (NESSIE 列消息摘要算法, FIPS标准之一180-2,摘要长度512位; CRYPTREC recommendation) 　　RIPEMD-160 (在欧洲为 RIPE 项目开发, 160位摘要;CRYPTREC 推荐 (limited)) 　　Tiger (by Ross Anderson et al) 　　Snefru 　　Whirlpool (NESSIE selection hash function, Scopus Tecnologia S.A. (Brazil) & K.U.Leuven (Belgium)) 　　公/私钥加密算法(也称 非对称性密钥算法) 　　ACE-KEM (NESSIE selection asymmetric encryption scheme; IBM Zurich Research) 　　ACE Encrypt 　　Chor-Rivest 　　Diffie-Hellman (key agreement; CRYPTREC 推荐) 　　El Gamal (离散对数) 　　ECC（椭圆曲线密码算法） (离散对数变种) 　　PSEC-KEM (NESSIE selection asymmetric encryption scheme; NTT (Japan); CRYPTREC recommendation only in DEM construction w/SEC1 parameters) ) 　　ECIES (Elliptic Curve Integrated Encryption System; Certicom Corp) 　　ECIES-KEM 　　ECDH (椭圆曲线Diffie-Hellman 密钥协议; CRYPTREC推荐) 　　EPOC 　　Merkle-Hellman (knapsack scheme) 　　McEliece 　　NTRUEncrypt 　　RSA (因数分解) 　　RSA-KEM (NESSIE selection asymmetric encryption scheme; ISO/IEC 18033-2 draft) 　　RSA-OAEP (CRYPTREC 推荐) 　　Rabin cryptosystem (因数分解) 　　Rabin-SAEP 　　HIME(R) 　　XTR 　　公/私钥签名算法 　　DSA（zh:数字签名;zh-tw:数位签章算法） (来自NSA,zh:数字签名;zh-tw:数位签章标准(DSS)的一部分; CRYPTREC 推荐) 　　Elliptic Curve DSA (NESSIE selection digital signature scheme; Certicom Corp); CRYPTREC recommendation as ANSI X9.62, SEC1) 　　Schnorr signatures 　　RSA签名 　　RSA-PSS (NESSIE selection digital signature scheme; RSA Laboratories); CRYPTREC recommendation) 　　RSASSA-PKCS1 v1.5 (CRYPTREC recommendation) 　　Nyberg-Rueppel signatures 　　MQV protocol 　　Gennaro-Halevi-Rabin signature scheme 　　Cramer-Shoup signature scheme 　　One-time signatures 　　Lamport signature scheme 　　Bos-Chaum signature scheme 　　Undeniable signatures 　　Chaum-van Antwerpen signature scheme 　　Fail-stop signatures 　　Ong-Schnorr-Shamir signature scheme 　　Birational permutation scheme 　　ESIGN 　　ESIGN-D 　　ESIGN-R 　　Direct anonymous attestation 　　NTRUSign用于移动设备的公钥加密算法, 密钥比较短小但也能达到高密钥ECC的加密效果 　　SFLASH (NESSIE selection digital signature scheme (esp for smartcard applications and similar); Schlumberger (France)) 　　Quartz
+编辑本段密码鉴定
+　　Key authentication 　　Public Key Infrastructure (PKI) 　　Identity-Based Cryptograph (IBC) 　　X.509 　　Public key certificate 　　Certificate authority 　　Certificate revocation list 　　ID-based cryptography 　　Certificate-based encryption 　　Secure key issuing cryptography 　　Certificateless cryptography
+编辑本段匿名认证系统
+　　GPS (NESSIE selection anonymous identification scheme; Ecole Normale Superieure, France Telecom, & La Poste)
+编辑本段秘密钥算法 (也称 对称性密钥算法)
+　　流密码 　　A5/1, A5/2 (GSM移动电话标准中指定的密码标准) 　　BMGL 　　Chameleon 　　FISH (by Siemens AG) 　　二战'Fish'密码 　　Geheimfernschreiber (二战时期Siemens AG的机械式一次一密密码, 被布莱奇利(Bletchley)庄园称为STURGEON) 　　Schlusselzusatz (二战时期 Lorenz的机械式一次一密密码, 被布莱奇利(Bletchley)庄园称为[[tunny) 　　HELIX 　　ISAAC (作为伪随机数发生器使用) 　　Leviathan (cipher) 　　LILI-128 　　MUG1 (CRYPTREC 推荐使用) 　　MULTI-S01 (CRYPTREC 推荐使用) 　　一次一密 (Vernam and Mauborgne, patented mid-'20s; an extreme stream cypher) 　　Panama 　　Pike (improvement on FISH by Ross Anderson) 　　RC4 (ARCFOUR) (one of a series by Prof Ron Rivest of MIT; CRYPTREC 推荐使用 (limited to 128-bit key)) 　　CipherSaber (RC4 variant with 10 byte random IV, 易于实现) 　　SEAL 　　SNOW 　　SOBER 　　SOBER-t16 　　SOBER-t32 　　WAKE 　　分组密码 　　分组密码操作模式 　　乘积密码 　　Feistel cipher (由Horst Feistel提出的分组密码设计模式) 　　Advanced Encryption Standard (分组长度为128位; NIST selection for the AES, FIPS 197, 2001 -- by Joan Daemen and Vincent Rijmen; NESSIE selection; CRYPTREC 推荐使用) 　　Anubis (128-bit block) 　　BEAR (由流密码和Hash函数构造的分组密码, by Ross Anderson) 　　Blowfish (分组长度为128位; by Bruce Schneier, et al) 　　Camellia (分组长度为128位; NESSIE selection (NTT & Mitsubishi Electric); CRYPTREC 推荐使用) 　　CAST-128 (CAST5) (64 bit block; one of a series of algorithms by Carlisle Adams and Stafford Tavares, who are insistent (indeed, adamant) that the name is not due to their initials) 　　CAST-256 (CAST6) (128位分组长度; CAST-128的后继者，AES的竞争者之一) 　　CIPHERUNICORN-A (分组长度为128位; CRYPTREC 推荐使用) 　　CIPHERUNICORN-E (64 bit block; CRYPTREC 推荐使用 (limited)) 　　CMEA － 在美国移动电话中使用的密码，被发现有弱点. 　　CS-Cipher (64位分组长度) 　　DESzh:数字;zh-tw:数位加密标准(64位分组长度; FIPS 46-3, 1976) 　　DEAL － 由DES演变来的一种AES候选算法 　　DES-X 一种DES变种，增加了密钥长度. 　　FEAL 　　GDES －一个DES派生，被设计用来提高加密速度. 　　Grand Cru (128位分组长度) 　　Hierocrypt-3 (128位分组长度; CRYPTREC 推荐使用)) 　　Hierocrypt-L1 (64位分组长度; CRYPTREC 推荐使用 (limited)) 　　International Data Encryption Algorithm (IDEA) (64位分组长度-- 苏黎世ETH的James Massey & X Lai) 　　Iraqi Block Cipher (IBC) 　　KASUMI (64位分组长度; 基于MISTY1, 被用于下一代W-CDMA cellular phone 保密) 　　KHAZAD (64-bit block designed by Barretto and Rijmen) 　　Khufu and Khafre (64位分组密码) 　　LION (由流密码和Hash函数构造的分组密码, by Ross Anderson) 　　LOKI89/91 (64位分组密码) 　　LOKI97 (128位分组长度的密码, AES候选者) 　　Lucifer (by Tuchman et al of IBM, early 1970s; modified by NSA/NBS and released as DES) 　　MAGENTA (AES 候选者) 　　Mars (AES finalist, by Don Coppersmith et al) 　　MISTY1 (NESSIE selection 64-bit block; Mitsubishi Electric (Japan); CRYPTREC 推荐使用 (limited)) 　　MISTY2 (分组长度为128位: Mitsubishi Electric (Japan)) 　　Nimbus (64位分组) 　　Noekeon (分组长度为128位) 　　NUSH (可变分组长度(64 - 256位)) 　　Q (分组长度为128位) 　　RC2 64位分组,密钥长度可变. 　　RC6 (可变分组长度; AES finalist, by Ron Rivest et al) 　　RC5 (by Ron Rivest) 　　SAFER (可变分组长度) 　　SC2000 (分组长度为128位; CRYPTREC 推荐使用) 　　Serpent (分组长度为128位; AES finalist by Ross Anderson, Eli Biham, Lars Knudsen) 　　SHACAL-1 (256-bit block) 　　SHACAL-2 (256-bit block cypher; NESSIE selection Gemplus (France)) 　　Shark (grandfather of Rijndael/AES, by Daemen and Rijmen) 　　Square (father of Rijndael/AES, by Daemen and Rijmen) 　　3-Way (96 bit block by Joan Daemen) 　　TEA(小型加密算法)(by David Wheeler & Roger Needham) 　　Triple DES (by Walter Tuchman, leader of the Lucifer design team -- not all triple uses of DES increase security, Tuchman's does; CRYPTREC 推荐使用 (limited), only when used as in FIPS Pub 46-3) 　　Twofish (分组长度为128位; AES finalist by Bruce Schneier, et al) 　　XTEA (by David Wheeler & Roger Needham) 　　多表代替密码机密码 　　Enigma (二战德国转轮密码机--有很多变种,多数变种有很大的用户网络) 　　紫密(Purple) (二战日本外交最高等级密码机;日本海军设计) 　　SIGABA (二战美国密码机，由William Friedman, Frank Rowlett, 等人设计) 　　TypeX (二战英国密码机) 　　Hybrid code/cypher combinations 　　JN-25 (二战日本海军的高级密码; 有很多变种) 　　Naval Cypher 3 (30年代和二战时期英国皇家海军的高级密码) 　　可视密码
+编辑本段有密级的 密码 (美国)
+　　EKMS NSA的电子密钥管理系统 　　FNBDT NSA的加密窄带话音标准 　　Fortezza encryption based on portable crypto token in PC Card format 　　KW-26 ROMULUS 电传加密机(1960s - 1980s) 　　KY-57 VINSON 战术电台语音加密 　　SINCGARS 密码控制跳频的战术电台 　　STE 加密电话 　　STU-III 较老的加密电话 　　TEMPEST prevents compromising emanations 　　Type 1 products
+编辑本段破译密码
+　　被动攻击 　　选择明文攻击 　　选择密文攻击 　　自适应选择密文攻击 　　暴力攻击 　　密钥长度 　　唯一解距离 　　密码分析学 　　中间相会攻击 　　差分密码分析 　　线性密码分析 　　Slide attack cryptanalysis 　　Algebraic cryptanalysis 　　XSL attack 　　Mod n cryptanalysis
+弱密钥和基于口令的密码
+　　 　　暴力攻击 　　字典攻击 　　相关密钥攻击 　　Key derivation function 　　弱密钥 　　口令 　　Password-authenticated key agreement 　　Passphrase 　　Salt
+密钥传输/交换
+　　 　　BAN Logic 　　Needham-Schroeder 　　Otway-Rees 　　Wide Mouth Frog 　　Diffie-Hellman 　　中间人攻击
+伪的和真的随机数发生器
+　　PRNG 　　CSPRNG 　　硬件随机数发生器 　　Blum Blum Shub 　　Yarrow (by Schneier, et al) 　　Fortuna (by Schneier, et al) 　　ISAAC 　　基于SHA-1的伪随机数发生器， in ANSI X9.42-2001 Annex C.1 (CRYPTREC example) 　　PRNG based on SHA-1 for general purposes in FIPS Pub 186-2 (inc change notice 1) Appendix 3.1 (CRYPTREC example) 　　PRNG based on SHA-1 for general purposes in FIPS Pub 186-2 (inc change notice 1) revised Appendix 3.1 (CRYPTREC example)
+匿名通讯
+　　Dining cryptographers protocol (by David Chaum) 　　匿名投递 　　pseudonymity 　　匿名网络银行业务 　　Onion Routing
+编辑本段法律问题
+　　Cryptography as free speech 　　Bernstein v. United States 　　DeCSS 　　Phil Zimmermann 　　Export of cryptography 　　Key escrow and Clipper Chip 　　Digital Millennium Copyright Act 　　zh:数字版权管理;zh-tw:数位版权管理 (DRM) 　　Cryptography patents 　　RSA (now public domain} 　　David Chaum and digital cash 　　Cryptography and Law Enforcement 　　Wiretaps 　　Espionage 　　不同国家的密码相关法律 　　Official Secrets Act (United Kingdom) 　　Regulation of Investigatory Powers Act 2000 (United Kingdom)
+编辑本段术语
+　　加密金钥 　　加密 　　密文 　　明文 　　加密法 　　Tabula recta
+编辑本段书籍和出版物
+　　密码学相关书籍 　　● 《密码传奇》，赵燕枫着，北京：科学出版社，2008年4月 　　密码学领域重要出版物 　　● 《应用密码学手册》 （《Handbook of Applied Cryptography 》）， 　　原出版社： CRC 　　作者：Alfred Menezes 　　译者： 胡磊 　　出版社：电子工业出版社 　　● 《计算机密码学－第3版》，卢开澄着，清华出版社 　　● 《现代密码学》，杨波着，清华出版社 　　● 《网络与信息安全技术丛书-应用密码学协议.算法与C源程序》 　　作 者:旋奈尔（Schneier B.） 出版社:机械工业出版社 　　出版日期: 2000-1-1 ISBN:711107588 　　● 《应用密码学》 　　作 者:杨义先/钮心忻 出版社:北京邮电大学出版社 　　出版日期: ISBN:756351065
+编辑本段密码学家
+　　参见List of cryptographers
+编辑本段密码技术应用
+　　Commitment schemes 　　Secure multiparty computations 　　电子投票 　　认证 　　数位签名 　　Cryptographic engineering 　　Crypto systems
+编辑本段杂项
+　　Echelon 　　Espionage 　　IACR 　　Ultra 　　Security engineering 　　SIGINT 　　Steganography 　　Cryptographers 　　安全套接字层(SSL) 　　量子密码 　　Crypto-anarchism 　　Cypherpunk 　　Key escrow 　　零知识证明 　　Random oracle model 　　盲签名 　　Blinding (cryptography) 　　数字时间戳 　　秘密共享 　　可信操作系统 　　Oracle (cryptography) 　　免费/开源的密码系统(特指算法+协议+体制设计) 　　PGP (a name for any of several related crypto systems, some of which, beginning with the acquisition of the name by Network Associates, have not been Free Software in the GNU sense) 　　FileCrypt (an open source/commercial command line version of PGP from Veridis of Denmark, see PGP) 　　GPG (an open source implementation of the OpenPGP IETF standard crypto system) 　　SSH (Secure SHell implementing cryptographically protected variants of several common Unix utilities, First developed as open source in Finland by Tatu Ylonen. There is now OpenSSH, an open source implementation supporting both SSH v1 and SSH v2 protocols. There are also commercial implementations. 　　IPsec (因特网协议安全IETF标准,IPv6 IETF 标准的必须的组成部分) 　　Free S/WAN (IPsec的一种开源实现
+编辑本段其它军事学分支学科
+　　军事学概述、射击学、弹道学、内弹道学、外弹道学、中间弹道学、终点弹道学、导弹弹道学、军事地理学、军事地形学、军事工程学、军事气象学、军事医学、军事运筹学、战役学、密码学、化学战 　　密码学(Cryptology)一字源自希腊文"krypto's"及"logos"两字，直译即为"隐藏"及"讯息"之意。而其使用， 　　可以追溯到大约四千年前。公元二千年，埃及人就将祭文刻在墓碑上。之后人们都是以书写在纸张上的方式， 　　用来传秘密讯息。在二次大战中，密码更是扮演一个举足轻重的角色，许多人认为同盟国之所以能打赢这场 　　战争完全归功于二次大战时所发明的破译密文数位式计算机破解德日密码。西元1949年，Shannon提出第一篇 　　讨论密码系统通讯理论之论文，近代密码学可说是滥觞于斯。直至西元1975年，Diffie与Hellman提出公开金 　　匙密码系统之观念，近代密码学之研究方向，正式脱离秘密金匙密码系统之窠臼，蓬勃发展，至今已近二十年。 　　发展至今，已有二大类的密码系统。第一类为对称金钥(Symmetric Key)密码系统，第二类为非对称金钥(Public Key) 　　密码系统。 　　首先密码学是由万维网的嬉皮士所研究，而且涉及钥匙传送问题。60年代?请保安传送钥匙；70年初，发 　　现这个不是好辨法，费时浪费时间。 　　1965年，美国史丹福大学电机工程系--默克尔、迪菲、赫尔曼等三人研究密码学可惜并未有所发现。 　　另外在英国通讯电子保安组(CESG)秘密机构的切尔纳姆发现了还原密码式，但是由于属于秘密机构，所以 　　不能公开。直到1977年麻省理工研究生--里夫斯，阿德曼发现和切尔曼差不多的式。他们成立RSA Security 　　Company (RSA是他们名字的字头)现时值25亿美元，在传送信用卡时起了很大作用。RSA已安装了5亿套产品在 　　IE , Netscape下的小锁就是RSA的产品。数学挂销第一个发现不是美国，但?是第一个公开。数学挂锁上锁易， 　　还原难,所以受广泛使用，亦即是信息编码保密。 　　数学挂锁泛例: 　　数学挂锁用单向式:N=pxq <--例子 N(合成数)=两个质数的乘 　　11x17=187=N 　　还原单向式公式:C=Me(mod N) *e是M的次数，因为在记事本中打不到* 　　M*13*(mod 187)=C *13是M的次数* 　　c=165 　　x=88 (password kiss) 　　88*13*(mod 187)=165 *13是88的次数* 　　modN=M 　　C*1/e*mod(p-1)(q-1)=88 　　C=165 　　p=11 　　q=17 　　answer:mod 187=88 　　一般有两种类型密码学被使用: 　　symmetric key (对称性的钥匙) 和 public key (公开的钥匙)(也叫 非对称的钥匙) 密码学. 　　举一个简单的对称的钥匙密码学的范例, 假想从朋友处收到一个通知. 你和你的朋友同意来加解密你们的讯息, 　　你们将使用下列演算法: 每个字母将会上移三个字母, 例如 A=C, B=D, 而 Y 和 Z 转一圈回到 A 和 B, 　　这个方程式 ("每个字母上移三个字母") 就是送信者使用来加密讯息的钥匙; 而收信者使用相同的钥匙来解密 . 　　任何人如果没有钥匙就不能够读此讯息. 因为相同的钥匙视同实用来加密及解密讯息, 这个方法是一个 对称钥匙 　　的演算法. 这类的密码学及是我们所知的秘密钥匙密码学,因为此钥匙 必须被秘密保存于送信者和收信者,以保护资料的完整性. 　　非对称性密码学 　　非对称性或公开的钥匙 密码学, 不同于对称性的 密码学, 在于其加密钥匙只适用于单一使用者. 　　钥匙被分为两个部分: 　　一把私有的钥匙, 仅有使用者才拥有. 　　一把公开的钥匙, 可公开发行配送,只要有要求即取得. 　　每支钥匙产生一个被使用来改变内文的功能. 私有的钥匙 产生一个 私有改变内文的功能,而公开的钥匙 产生一个 公开改变内文的功能. 　　这些功能是反向相关的, 例如., 如果一个功能是用来加密讯息,另外一个功能则被用来解密讯息.不论此改变内文功能的次序为何皆不重要. 　　公开的钥匙系统的优势是两个使用者能够安全的沟通而不需交换秘密钥匙. 例如, 假设一个送信者需要传送一个信息给一个收信者, 　　而信息的秘密性是必要的, 送信者以收信者的公开的钥匙来加密,而仅有收信者的私有的钥匙能够对此信息解密. 　　公开的钥匙密码学是非常适合于提供认证,完整和不能否认的服务, 所有的这些服务及是我们所知的数位签名. 　　相关网站 　　密码学二 　　基本原理的密码法，可以分成两种：移位法（transposition）和替代法（substitution）， 　　移位法就是将讯息里面的文字，根据一定的规则改变顺序，这种方法，在文字数量很大的时候， 　　便可以显示出它的优势，例如"Hello World"才不过10个字母便可以有11708340914350080000种排列的方式。 　　另外一种方法，就是替代法，还可以分成两种，一种是单字替代，一种是字母替代，两种的原理是一样的， 　　就是利用文字相对顺序的对应，来改变原来的文章，以英文为例，我们可以把英文字母往后移动三个位置，即： 　　a b c d e f g h i j k l m n o p q r s t u v w x y z 　　D E F G H I J K L M N O P Q R S T U V W X Y Z A B C 　　泛例: Hello World How are you 　　khoor zruog krz duh brx 　　这句话就变的难以辨认了，而且如果发信人收信人有协定好的话，那还可以把文字之间的空白删除，反正翻译回来的时候， 　　可以靠文句的意思，来推测断句断字的时机。 而单字替代，则是以每个单字，都去换成另外一个相对应的单字，这样来改写原文， 　　变成一个无法辨认其意义的加密文件。 　　移位法当然不只限于一种，光是英文字母不考虑大小写，就可以有２５种互异的方法，每种密码法，都可视为一种加密法， 　　我们称为演算法（algorithm），和一把钥匙（KEY）的组合结果。钥匙是用来指定加密程序的演算细节。以移位法为例， 　　演算法是只以密码字母集里的字母，取代明文字母集里面的字母，钥匙便是收发信人定义的密码字母集。 　　整个密码学发展的程序，辨识找寻新的演算法，和保护钥匙避免被解密者发现的程序，钥匙在密码学中非常重要，因为即使演算法相同或太简单， 　　没有加密的钥匙的话，我们仍然很难去破解加密的文件。以单纯的英文字母，不单纯的平移，而用一个字母一个字母互换的话，不考虑大小写， 　　就有403291461126605635584000000种不同的钥匙必须要去测试，才可以得到原来的明文。 　　密码学的应用 　　1. 数位签章(Digital Signature)： 　　这是以密码学的方法，根据EDI讯息的内容和发信人的私钥(Private Key)所产生的电子式签名。除非拥有该把私钥，任何人都无法产生该签名，因此比手写式的签名安全许多。 　　收信人则以发信人的公钥进行数位签章的验证。 　　2. 数位信封(Digital Envelope)： 　　这是以密码学的方法，用收信人的公钥对某些机密资料进行加密，收信人收到后再用自己的私钥解密而读取机密资料。除了拥有该私钥的人之外， 　　任何人即使拿到该加密过的讯息都无法解密，就好像那些资料是用一个牢固的信封装好，除了收信人之外，没有人能拆开该信封。 　　3. 安全回条： 　　收信人依据讯息内容计算所得到的回覆资料，再以收信人的私钥进行数位签章后送回发信人，一方面确保收信人收到的讯息内容正确无误， 　　另一方面也使收信人不能否认已经收到原讯息。 　　4. 安全认证： 　　每个人在产生自己的公钥之后，向某一公信的安全认证中心申请注册，由认证中心负责签发凭证(Certificate)，以保证个人身份与公钥的对应性与正确性 　　量子密码学(Jennewein et al., Quantum Cryptography with EntangledPhotons, Physical Review Letters, May 15, 2000, Vol 84, Iss 20, pp. 4729-4732) 　　三个独立研究机构首次实验证明利用量子幽灵式的特性来建构密码之可行性, 这项研究提供未来对付电脑骇客的防犯之道. 　　在这个最新--也是最安全--的资料加密解密架构（即量子密码学）中，研究者是采用一对 entangled光子, 　　而这对粒子即使相隔远距离的情况下,仍有密切的互动关系. 　　entanglement-based 的量子密码学具有唯一的, 不可被窃听的传输特性, 如果有偷听者想窃取资料, 也很容易的可以监测出来. 　　简而言之, entanglement process 可以建立完整的, 随机的 0与 1 序列提供两端使用者传输资料, 如果有骇客从中撷取资料, 　　那么这个讯息序列将被改变, 用户就会发现有窃听者, 并授权放弃被窃听的资料. 这种数位随机序列, 或称 "金钥匙", 　　再和资料进行计算 (如互斥或闸 XOR), 即加密程序, 使得这资料串形成一完全随机序列, 这方法就是已知的 one-time pad cipher. 同理, 　　接收端也是靠着金钥匙来进行解密程序. 　　在研究中, Los Alamos 研究者模拟一位窃听者窃取传输资料, 成功地被侦测出来, 并授权用户放弃被窃取的资料. 　　而在澳洲的研究团队, 则建立了一公里长的光纤来连接两个完全独立的传输, 接收站来验证 entangled 密码理论, 　　他们建立了金钥匙并成功的传输 Venus 影像. 同时, 在 University of Geneva 团队建构超过数公里的光纤, 　　并使用光子频率来验证entangled 密码理论. 　　在这些实验中, 虽然他们的传输速率较慢, 但 entanglement-based 密码理论在未来极有可能超越non-entangled 量子密码理论, 　　不仅是传输速率, 而且在预防资料被窃取方面, 所需要的额外光子也比较少.什么是密码强度 　　密码强度是迅雷对您密码安全性给出的评级，供您参考。为了帐号的安全性，我们强烈建议您设置高强度的密码。 　　高强度的密码应该是： 　　包括大小写字母、数字和符号，且长度不宜过短，最好不少于10位。 　　不包含生日、手机号码等易被猜出的信息。 　　此外，建议您定期更换密码，不要轻易把您的帐号或者密码透露给别人。 　　0与1 　　2进制中得原始代码，通常可以控制如：2极管，3极管等电子元器件得通与分......词条图册更多图册
+扩展阅读： 
+1 
+《电脑爱好者》2006年第22期第27页。
+2 
+十大专家推荐2008年最值得阅读好书《密码传奇》，科学出版社，2008年4月，关于密码史的好书
+3 
+《黑客入门》
+4 
+邪恶八进制信息安全团队应用密码学资料专区：https://forum.eviloctal.com/forum-57-1.html
+5 
+www.hzchtd.com 彩虹天地加密狗
+
+
+
+
