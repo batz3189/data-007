@@ -1,0 +1,49 @@
+/*
+ * Copyright (c) 2000-2008
+ * Author: Weiming Zhou
+ *
+ * Permission to use, copy, modify, distribute and sell this software
+ * and its documentation for any purpose is hereby granted without fee,
+ * provided that the above copyright notice appear in all copies and
+ * that both that copyright notice and this permission notice appear
+ * in supporting documentation.  
+ */
+
+#ifndef _DSPACELIST_H_
+#define _DSPACELIST_H_
+
+#include "SpList.h"
+
+#define     DSPACENODE_IN_LIST      1
+#define     DSPACENODE_NOT_IN_LIST  0
+
+typedef struct DSPACENODE_st {
+    struct DSPACENODE_st * pPrev;        /* 前一个节点指针 */
+    struct DSPACENODE_st * pNext;        /* 后一个节点指针 */
+    SPLIST               * pSpList;      /*可用空间表指针 */
+    UINT                   uInListFlag;  /* 标示本节点是否在链表中的标志 */
+    UINT                   uPos;         /* 节点在数组中的下标位置 */
+} DSPACENODE;
+
+typedef struct DSPACELIST_st {
+    DSPACENODE  *pDSNode;         /* 用来管理可用空间表的DSPACENODE数组 */
+    DSPACENODE  *pEmpty;          /* 可用空间表中没有被使用的节点链表表头 */
+    DSPACENODE  *pHead;           /* 有自由空间的DSPACENODE链的尾部 */
+    DSPACENODE  *pTail;           /* 有自由空间的DSPACENODE链的尾部 */
+    UINT        uDataCount;       /* 每个可用空间表中的数据个数 */
+    UINT        uDataSize;        /* 数据大小 */
+    UINT        uDSNodeCount;     /* 总的DSPACENODE节点数量 */
+    UINT        uCurrentDSNode;   /* 当前正在使用的DSPACENODE索引 */
+    UINT        uMinDSNodeCount;  /* 最小使用的DSPACENODE数量 */
+    UINT        uUsedDSNodeCount; /* 正在使用的DSPACENODE数量 */
+} DSPACELIST;
+
+DSPACELIST *DSpaceList_Create(UINT uDataSize, UINT uDataCount,
+                              UINT uMinDSNodeCount, UINT uDSNodeCount);
+void        DSpaceList_Destroy(DSPACELIST *pList);
+
+void       *DSpaceList_Alloc(DSPACELIST *pList);
+void        DSpaceList_Free(DSPACELIST *pList, void *pData);
+
+#endif /* _DSPACELIST_H_ */
+
