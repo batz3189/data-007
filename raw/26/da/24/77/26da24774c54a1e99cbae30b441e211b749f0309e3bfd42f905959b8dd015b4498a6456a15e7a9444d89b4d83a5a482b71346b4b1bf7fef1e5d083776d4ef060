@@ -1,0 +1,170 @@
+/*
+ * Copyright (c) 2000-2008
+ * Author: Weiming Zhou
+ *
+ * Permission to use, copy, modify, distribute and sell this software
+ * and its documentation for any purpose is hereby granted without fee,
+ * provided that the above copyright notice appear in all copies and
+ * that both that copyright notice and this permission notice appear
+ * in supporting documentation.  
+ */
+
+#include <stdlib.h>
+#include "CapiGlobal.h"
+#include "BlockList.h"
+
+/**	整块内存链表的创建函数
+
+	@param	UINT uDataSize - 数据大小	
+	@param	UINT uMaxDataCount - 链表中最大可存放数据的个数	
+	@return	BLOCKLIST * -整块内存链表指针	
+*/
+BLOCKLIST * BlockList_Create(UINT uDataSize, UINT uMaxDataCount)
+{
+    BLOCKLIST   *pList;
+    SINGLENODE  *pNode;
+    UINT        i;
+    
+    pList = (BLOCKLIST *)malloc( sizeof(BLOCKLIST)
+        + uMaxDataCount * (uDataSize + sizeof(SINGLENODE)) );
+    if ( pList != NULL )
+    {
+        pList->pBlock = (void *)((char *)pList +sizeof(BLOCKLIST) );
+        
+        /* 建立空链表 */
+        pList->pEmpty = (SINGLENODE *)pList->pBlock;
+        pNode = pList->pEmpty;
+        
+        for (i = 0; i < uMaxDataCount-1; i++)
+        {
+            pNode->pNext = (SINGLENODE *)((char *)pNode + sizeof(SINGLENODE)
+                + uDataSize);
+            pNode = pNode->pNext;
+        }
+        pNode->pNext = NULL;
+        
+        pList->uFreeCount = uMaxDataCount;
+        pList->uDataSize = uDataSize;
+        pList->uMaxDataCount = uMaxDataCount;
+        pList->pHead = NULL;
+    }
+    
+    return pList;
+}
+
+/**	整块内存链表的释放函数
+
+	@param	BLOCKLIST *pList - 整块内存链表指针	
+	@return	void - 无	
+*/
+void BlockList_Destroy(BLOCKLIST *pList)
+{
+    if ( pList != NULL )
+    {
+        free( pList );
+    }
+}
+
+/**	 整块内存链表的插入数据函数
+
+	@param	BLOCKLIST *pList - 整块内存链表指针	
+	@param	void *pData - 要插入的节点数据指针	
+	@param	UINT uDataLen - 要插入的数据的长度	
+	@return	INT - 失败返回-1，成功返回0。	
+*/
+INT BlockList_InsertHead(BLOCKLIST *pList, void *pData, UINT uDataLen)
+{
+    SINGLENODE  *pNode;
+    if ( uDataLen > pList->uDataSize )
+    {
+        return -1;
+    }
+
+    pNode = pList->pEmpty;
+    if ( pNode != NULL )
+    {
+        pList->pEmpty = pNode->pNext;
+    }
+    else
+    {
+        return -1;
+    }
+
+    pNode->pNext = pList->pHead;
+    memcpy(pNode->pData, pData, uDataLen);
+    
+    pList->pHead = pNode;
+    pList->uFreeCount--;
+
+    return 0;
+}
+
+/**	整块内存链表的删除头部节点函数
+
+	@param	BLOCKLIST *pList - 整块内存链表指针		
+	@return	void - 无	
+*/
+void  BlockList_DeleteHead(BLOCKLIST *pList)
+{
+    SINGLENODE	*pPopNode;   /* 用来指向要弹出数据的节点的指针 */
+
+    /* 参数校验 */
+    if ( pList == NULL || pList->pHead == NULL ) 
+    {
+        return;
+    }
+
+    /* 弹出链表头节点 */
+    pPopNode = pList->pHead;
+    pList->pHead = pList->pHead->pNext;
+
+    /* 将弹出的节点加入到空链表的头部 */
+    pPopNode->pNext = pList->pEmpty;
+    pList->pEmpty = pPopNode;
+	
+    /* 将链表节点数量加1 */
+    pList->uFreeCount++;
+
+    return;    
+}
+
+
+/**	整块内存链表的内存分配函数
+        从空链中弹出一个节点，将其作为分配的内存
+
+	@param	BLOCKLIST *pList - 整块内存链表指针	
+	@return	void * - 成功返回分配到的内存指针，失败返回NULL	
+*/
+void * BlockList_Alloc(BLOCKLIST *pList)
+{
+    SINGLENODE   *pNode;
+    
+    pNode = pList->pEmpty;
+    if ( pNode != NULL )
+    {
+        pList->pEmpty = pNode->pNext;
+        pList->uFreeCount--;
+        return (void *)pNode;  
+    }
+    return NULL;
+}
+
+
+/**	整块内存链表的内存释放函数
+        将内存释放掉加入到空链中
+
+	@param	BLOCKLIST *pList - 整块内存链表指针
+	@param	void *pData - 要释放的数据指针	
+	@return	void - 无	
+*/
+void BlockList_Free(BLOCKLIST *pList, void *pData)
+{
+    SINGLENODE  *pNode;
+    
+    pNode= (SINGLENODE *)pData;
+    pNode->pNext = pList->pEmpty;
+    pList->pEmpty = pNode;
+    pList->uFreeCount++;
+}
+
+
