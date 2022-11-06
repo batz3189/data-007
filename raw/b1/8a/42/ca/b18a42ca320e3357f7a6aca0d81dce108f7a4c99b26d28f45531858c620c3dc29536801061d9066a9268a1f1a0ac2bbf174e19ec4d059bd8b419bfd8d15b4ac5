@@ -1,0 +1,66 @@
+#
+#######################################################
+set hdlin_translate_off_skip_text "true"
+set verilogout_no_tri             "true"
+set default_schematic_options     "-size infinite"
+set write_name_nets_same_as_ports "true"
+#######################################################
+#
+# dc_shell TcL startup script:
+#
+set designer "veriloguserN"
+set company  "SVTI"
+#
+# Some design environment variables:
+#
+set search_path ".  [getenv SYNOPSYS]/../TSMCLibes/tcbn90ghpSYN/Typical [getenv SYNOPSYS]/../TSMCLibes/tcbn90ghpSYN"
+#
+# tc = Typical; bc = Best; wc = Worst:
+set target_library tcbn90ghptc.db
+set link_library   tcbn90ghptc.db
+#
+set symbol_library tcbn90ghp.sdb
+#
+# ---------------------------------
+#
+define_design_lib FindPatternBeh -path ./FindPatternBehSynth
+#
+analyze -work FindPatternBeh -format verilog FindPatternBeh.v
+#
+# ---------------------------------
+#
+# ###############################################################
+# ###############################################################
+# ###############################################################
+#
+#     dc_shell Presto compilation quits after a few minutes
+#              on this design:
+#
+# ERROR:  Loop exceeded maximum iteration limit.
+#
+#    Use Cntrl-C 3 times to abort dc_shell!
+#
+# ###############################################################
+# ###############################################################
+# ###############################################################
+#
+elaborate -work FindPatternBeh FindPattern
+#
+set_operating_conditions NCCOM
+set_wire_load_model -name "TSMC8K_Lowk_Conservative"  [all_designs]
+#
+# For XG mode portability to back-end tools:
+set_fix_multiple_port_nets -all
+#
+set verilogout_higher_designs_first "true"
+#
+set_drive     10.0 [all_inputs]
+set_load      30.0 [all_outputs]
+set_max_fanout 5   [all_inputs]
+#
+# module-specific constraints:
+set_max_area   0
+set_max_delay 10 -to [all_outputs]
+#
+# Drop into interactive mode to try compile:
+#
