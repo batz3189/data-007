@@ -1,0 +1,291 @@
+/*
+ * Copyright (c) 2000-2008
+ * Author: Weiming Zhou
+ *
+ * Permission to use, copy, modify, distribute and sell this software
+ * and its documentation for any purpose is hereby granted without fee,
+ * provided that the above copyright notice appear in all copies and
+ * that both that copyright notice and this permission notice appear
+ * in supporting documentation.  
+ */
+
+#include <stdlib.h>
+#include "CapiGlobal.h"
+#include "BinTree.h"
+#include "RBTree.h"
+#include "HashRBTree.h"
+
+
+/**	哈希红黑树的节点创建函数
+
+	@param	void *pData - 数据指针	
+	@return	static HASHRBTREENODE * - 成功返回创建的节点指针，失败返回NULL	
+*/
+static HASHRBTREENODE *HashRBTreeNode_Create( void *pData )
+{
+    HASHRBTREENODE *pNewNode;
+
+    pNewNode = (HASHRBTREENODE *)malloc(sizeof(HASHRBTREENODE));
+    if ( pNewNode != NULL )
+    {
+        RBTREENODE     *pTreeNode;
+
+        pTreeNode = &(pNewNode->TreeNode);
+
+        pTreeNode->pLeft = NULL;
+        pTreeNode->pRight = NULL;
+        pTreeNode->nMagic = RBTREE_COLOR_RED;
+        pTreeNode->pData = pData;
+        pTreeNode->pParent = NULL;
+
+        pNewNode->pNext = NULL;
+    }
+    return pNewNode;
+}
+
+/**	哈希红黑树的创建函数
+
+	@param	UINT uBucketNum - 哈希表的bucket数量	
+	@return	HASHRBTREE * - 成功返回哈希红黑树指针，失败返回NULL。	
+*/
+HASHRBTREE *HashRBTree_Create(UINT uBucketCount)
+{
+    HASHRBTREE  *pHashRBTree;
+
+    if ( uBucketCount == 0 )
+    {
+        return NULL;
+    }
+
+    pHashRBTree = (HASHRBTREE *)malloc( sizeof(HASHRBTREE) );
+    if ( pHashRBTree != NULL )
+    {
+        pHashRBTree->ppBucket = (HASHRBTREENODE **)malloc( uBucketCount 
+            * sizeof(HASHRBTREENODE *) );
+        if ( pHashRBTree->ppBucket != NULL )
+        {
+            pHashRBTree->pTree = RBTree_Create();
+            if ( pHashRBTree->pTree == NULL )
+            {
+                free( pHashRBTree->ppBucket );
+                free( pHashRBTree );
+                pHashRBTree = NULL;
+            }
+            else
+            {
+                memset(pHashRBTree->ppBucket, 0, uBucketCount * sizeof(HASHRBTREENODE *));
+                pHashRBTree->uBucketCount = uBucketCount;
+            }
+        }
+        else
+        {
+            free( pHashRBTree );
+            pHashRBTree = NULL;
+        }
+    }
+    return pHashRBTree;
+}
+
+/**	哈希红黑树的释放函数
+
+	@param	HASHRBTREE *pHashRBTree - 哈希红黑树指针	
+	@param	DESTROYFUNC DestroyFunc - 数据释放函数	
+	@return	void - 无	
+*/
+void HashRBTree_Destroy(HASHRBTREE *pHashRBTree, DESTROYFUNC DestroyFunc)
+{
+    /* 哈希红黑树中，我们只要按红黑树的释放方法将所有节点释放即可 */
+    if ( pHashRBTree != NULL && pHashRBTree->pTree != NULL )
+    {
+        RBTree_Destroy( pHashRBTree->pTree, DestroyFunc );
+
+        /* 释放哈希表时，由于节点已经被释放了, 因此不需要释放节点 */
+        free(pHashRBTree->ppBucket);
+        free(pHashRBTree);
+    }
+}
+
+
+/**	哈希红黑树的插入函数
+
+	@param	HASHRBTREE *pHashRBTree - 哈希红黑树指针	
+	@param	void *pData - 数据指针	
+	@param	HASHFUNC HashFunc - 哈希函数	
+	@param	COMPAREFUNC CompareFunc - 数据比较函数	
+	@param	DESTROYFUNC DestroyFunc - 数据释放函数	
+	@return	INT - CAPI_FAILED表示失败，CAPI_SUCCESS表示成功。	
+*/
+INT HashRBTree_Insert(HASHRBTREE *pHashRBTree, void *pData, HASHFUNC HashFunc,
+                      COMPAREFUNC CompareFunc, DESTROYFUNC DestroyFunc)
+{
+    UINT        uIndex;
+
+    INT nRet = CAPI_FAILED;
+    if ( pHashRBTree != NULL )
+    {
+        HASHRBTREENODE  *pNewNode;
+
+        pNewNode = (HASHRBTREENODE *)HashRBTreeNode_Create( pData );
+        if ( pNewNode == NULL )
+        {
+            return CAPI_FAILED;
+        }
+
+        /* 先将节点插入到红黑树中 */
+        nRet = RBTree_Inter_Insert(pHashRBTree->pTree, 
+            (RBTREENODE *)pNewNode, CompareFunc);
+        if ( nRet == CAPI_SUCCESS )
+        {
+            HASHRBTREENODE  *pNode;
+
+            /* 在红黑树中插入成功后，再将其插入到哈希表中 */
+            uIndex = (*HashFunc)( pData, pHashRBTree->uBucketCount );
+            pNode = (HASHRBTREENODE *)(pHashRBTree->ppBucket[uIndex]);
+
+	        /* 在哈希表中查找对应节点 */
+            while ( pNode != NULL )
+            {
+                if ( (*CompareFunc)( (pNode->TreeNode).pData, pData) == 0 )
+                {
+			        /* 哈希表中存在相同数据的节点，将节点的数据用新的数据覆盖 */
+                    (*DestroyFunc)( (pNode->TreeNode).pData );
+                    (pNode->TreeNode).pData = pData;
+
+                    return nRet;
+		        }
+                pNode = pNode->pNext;
+	        }
+
+            /* 将新生成的节点插入到BUCKET的头部 */
+            pNode = (HASHRBTREENODE *)pHashRBTree->ppBucket[uIndex];
+            pNewNode->pNext = pNode;
+            pHashRBTree->ppBucket[uIndex] = (HASHRBTREENODE *)pNewNode;
+        }
+    }
+
+    return nRet;
+}
+
+/**	哈希红黑树的删除函数
+
+	@param	HASHRBTREE *pHashRBTree - 哈希红黑树指针	
+	@param	void *pData - 数据指针	
+	@param	HASHFUNC HashFunc - 哈希函数	
+	@param	COMPAREFUNC CompareFunc - 数据比较函数	
+	@param	DESTROYFUNC DestroyFunc - 数据释放函数	
+	@return	INT - 成功返回CAPI_SUCCESS, 失败返回CAPI_FAILED	
+*/
+INT HashRBTree_Delete(HASHRBTREE *pHashRBTree, void *pData, 
+                      HASHFUNC HashFunc, 
+                      COMPAREFUNC CompareFunc,
+                      DESTROYFUNC DestroyFunc)
+{
+    UINT    uIndex;
+    HASHRBTREENODE  *pNode;
+    HASHRBTREENODE  *pPrevNode;
+
+    uIndex = (*HashFunc)( pData, pHashRBTree->uBucketCount );
+    pNode = (HASHRBTREENODE *)(pHashRBTree->ppBucket[uIndex]);
+    pPrevNode = pNode;
+
+    /* 在哈希表中删除对应的节点，注意这里因为还要在红黑树中删除对应数据的节点，
+     * 因此节点内存必须在删除红黑树时才能释放.
+     */
+    while ( pNode != NULL )
+    {
+        if ( (*CompareFunc)( (pNode->TreeNode).pData, pData ) == 0 )
+        {
+            if ( pPrevNode == pNode )
+            {
+                pHashRBTree->ppBucket[uIndex] = pNode->pNext;
+            }
+            else
+            {
+                pPrevNode->pNext = pNode->pNext;
+            }
+
+            break;
+        }
+
+        pPrevNode = pNode;
+        pNode = pNode->pNext;
+    }    
+
+    /* 在红黑树中将对应节点删除 */
+    return RBTree_Delete(pHashRBTree->pTree, pData, CompareFunc, DestroyFunc);
+}
+
+/**	哈希红黑树的按红黑树查找方法进行查找的函数
+
+	@param	HASHRBTREE *pHashRBTree - 哈希红黑树指针	
+	@param	void *pData - 要查找的数据	
+	@param	HASHFUNC HashFunc - 哈希函数	
+	@param	COMPAREFUNC CompareFunc - 数据比较函数	
+	@return	void * - 成功返回查找到的数据指针，失败返回NULL	
+*/
+void * HashRBTree_HashFind(HASHRBTREE *pHashRBTree, void *pData, 
+                       HASHFUNC HashFunc, COMPAREFUNC CompareFunc )
+{
+	UINT			    uIndex;
+	HASHRBTREENODE *	pNode;
+
+    /* 参数校验 */
+	if ( pHashRBTree == NULL || pData == NULL 
+        || HashFunc == NULL || CompareFunc == NULL )
+	{
+		return NULL;
+	}
+
+	uIndex = (*HashFunc)( pData, pHashRBTree->uBucketCount );
+	pNode = (HASHRBTREENODE *)(pHashRBTree->ppBucket[uIndex]);
+	
+	/* 在哈希表冲突链中进行查找 */
+	while ( pNode != NULL )
+	{
+		if ( (*CompareFunc)( (pNode->TreeNode).pData, pData) == 0 )
+		{
+			/* 找到了对应的数据，返回找到的数据指针 */
+			return (pNode->TreeNode).pData;
+		}
+		pNode = pNode->pNext;
+	}
+
+    return NULL;
+}
+
+
+/**	哈希红黑树的按红黑树查找方法进行查找的函数
+
+	@param	HASHRBTREE *pHashRBTree - 哈希红黑树指针	
+	@param	void *pData - 要查找的数据	
+	@param	COMPAREFUNC CompareFunc - 数据比较函数	
+	@return	void * - 成功返回查找到的数据指针，失败返回NULL	
+*/
+void * HashRBTree_TreeFind(HASHRBTREE *pHashRBTree, void *pData, 
+                           COMPAREFUNC CompareFunc )
+{
+    return RBTree_Find(pHashRBTree->pTree, pData, CompareFunc);
+}
+
+
+/**	哈希红黑树的逐个节点遍历初始化函数
+
+	@param	HASHRBTREE *pHashRBTree - 哈希红黑树指针	
+	@return	void - 无	
+*/
+void HashRBTree_EnumBegin(HASHRBTREE *pHashRBTree)
+{
+    RBTree_EnumBegin(pHashRBTree->pTree);
+}
+
+
+/**	哈希红黑树的逐个节点遍历函数，按照红黑树的遍历方法进行遍历
+
+	@param	HASHRBTREE *pHashRBTree - 哈希红黑树指针	
+	@return	void * - 数据指针	
+*/
+void *HashRBTree_EnumNext(HASHRBTREE *pHashRBTree)
+{
+    return RBTree_EnumNext(pHashRBTree->pTree);
+}
+
