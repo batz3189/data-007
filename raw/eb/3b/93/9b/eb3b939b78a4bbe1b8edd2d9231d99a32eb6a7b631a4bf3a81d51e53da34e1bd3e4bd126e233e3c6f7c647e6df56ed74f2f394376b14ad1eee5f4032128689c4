@@ -1,0 +1,15 @@
+1. In 'license.srñ' change <my_comp>, <my_host_id>, <path_to_mgcld> to YOU data.
+2. Run 'run_me.bat' to generate license 'mentor.dat'.
+
+  For Windows
+
+3. Copy 'patch_dll.bat' and 'MentorKG.exe' to <path_to_ModelSim_win32>
+4. Run 'patch_dll.bat'to patch mgcld.dll  (do NOT use license generated at this step !!!!)
+ 
+  For Linux
+
+3. Path 'mgls_asynch' with 'patch_2010'
+
+
+Start license server standart way.
+Enjoy.
