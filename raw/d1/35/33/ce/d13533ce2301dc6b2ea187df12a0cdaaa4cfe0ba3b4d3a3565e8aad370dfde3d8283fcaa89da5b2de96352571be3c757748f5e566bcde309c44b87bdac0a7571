@@ -1,0 +1,526 @@
+1. Introduction to ASICs. 
+Types of ASIC. 
+Full-Custom ASICs. 
+Standard-Cell?Based ASICs. 
+Gate-Array?Based ASICs. 
+Channeled Gate-Array. 
+Channelless Gate-Array. 
+Structured Gate-Array. 
+Programmable Logic Devices. 
+Field-Programmable Gate Arrays. 
+Design Flow. 
+Case Study. 
+Economics of ASICs. 
+Comparison Between ASIC Technologies. 
+Product Cost. 
+ASIC Fixed Costs. 
+ASIC Variable Costs. 
+ASIC Cell Libraries. 
+
+
+2. CMOS Logic. 
+CMOS Transistors. 
+P-Channel Transistors. 
+Velocity Saturation. 
+SPICE Models. 
+Logic Levels. 
+The CMOS Process. 
+Sheet Resistance. 
+CMOS Design Rules. 
+Combinational Logic Cells. 
+Pushing Bubbles. 
+Drive Strength. 
+Transmission Gates. 
+Exclusive-OR Cell. 
+Sequential Logic Cells. 
+Latch. 
+Flip-Flop. 
+Clocked Inverter. 
+Datapath Logic Cells. 
+Datapath Elements. 
+Adders. 
+A Simple Example. 
+Multipliers. 
+Other Arithmetic Systems. 
+Other Datapath Operators. 
+I/O Cells. 
+Cell Compilers. 
+
+
+3. ASIC Library Design. 
+Transistors as Resistors. 
+Transistor Parasitic Capacitance. 
+Junction Capacitance. 
+Overlap Capacitance. 
+Gate Capacitance. 
+Input Slew Rate. 
+Logical Effort. 
+Predicting Delay. 
+Logical Area and Logical Efficiency. 
+Logical Paths. 
+Multistage Cells. 
+Optimum Delay. 
+Optimum Number of Stages. 
+Library-Cell Design. 
+Library Architecture. 
+Gate-Array Design. 
+Standard-Cell Design. 
+Datapath-Cell Design. 
+
+
+
+4. Programmable ASICs. 
+The Antifuse. 
+Metal?Metal Antifuse. 
+Static RAM. 
+EPROM and EEPROM Technology. 
+Practical Issues. 
+FPGAs in Use. 
+Specifications. 
+PREP Benchmarks. 
+FPGA Economics. 
+FPGA Pricing. 
+Pricing Examples. 
+
+
+5. Programmable ASIC Logic Cells. 
+Actel. 
+ACT 1 Logic Module. 
+Shannonés Expansion Theorem. 
+Multiplexer Logic as Function Generators. 
+ACT 2 and ACT 3 Logic Modules. 
+Timing Model and Critical Path. 
+Speed Grading. 
+Worst-Case Timing. 
+Actel Logic Module Analysis. 
+Xilinx LCA. 
+XC3000 CLB. 
+XC4000 Logic Block. 
+XC5200 Logic Block. 
+Xilinx CLB Analysis. 
+@ltera FLEX. 
+@ltera MAX. 
+Logic Expanders. 
+Timing Model. 
+Power Dissipation in Complex PLDs. 
+
+
+6. Programmable ASIC I/O Cells. 
+DC Output. 
+Totem-Pole Output. 
+Clamp Diodes. 
+AC Output. 
+Supply Bounce. 
+Transmission Lines. 
+DC Input. 
+Noise Margins. 
+Mixed-Voltage Systems. 
+AC Input. 
+Metastability. 
+Clock Input. 
+Registered Inputs. 
+Power Input. 
+Power Dissipation. 
+Power-On Reset. 
+Xilinx I/O Block. 
+Boundary Scan. 
+Other I/O Cells. 
+
+
+7. Programmable ASIC Interconnect. 
+Actel ACT. 
+Routing Resources. 
+Elmoreés Constant. 
+RC Delay in Antifuse Connections. 
+Antifuse Parasitic Capacitance. 
+ACT 2 and ACT 3 Interconnect. 
+Xilinx LCA. 
+Xilinx EPLD. 
+@ltera MAX 5k and 7k. 
+@ltera MAX 9k. 
+@ltera FLEX. 
+
+
+8. Programmable ASIC Design Software. 
+Design Systems. 
+Xilinx. 
+Actel. 
+@ltera. 
+Logic Synthesis. 
+FPGA Synthesis. 
+The Halfgate ASIC. 
+Xilinx. 
+Actel. 
+@ltera. 
+Comparison. 
+FPGA Vendors. 
+Third-party Software. 
+
+
+9. Low-Level Design Entry. 
+Schematic Entry. 
+Hierarchical Design. 
+The Cell Library. 
+Names. 
+Schematic Icons and Symbols. 
+Nets. 
+Schematic Entry for ASICs and PCBs. 
+Connections. 
+Vectored Instances and Buses. 
+Edit-in-Place. 
+Attributes. 
+Netlist Screener. 
+Schematic-Entry Tools. 
+Back-Annotation. 
+Low-level Design Languages. 
+ABEL. 
+CUPL. 
+PALASM. 
+PLA Tools. 
+EDIF. 
+EDIF Syntax. 
+An EDIF Netlist Example. 
+An EDIF Schematic Icon. 
+An EDIF Example. 
+CFI Design Representation. 
+CFI Connectivity Model. 
+
+
+10. VHDL. 
+A Counter. 
+A 4-bit Multiplier. 
+An 8-bit Adder. 
+A Register-Accumulator. 
+Zero-Detector. 
+A Shift-Register. 
+A State Machine. 
+A Multiplier. 
+Packages and Test Bench. 
+Syntax and Semantics of VHDL. 
+Identifiers and Literals. 
+Entity and Architecture. 
+Packages and Libraries. 
+Standard Package. 
+Std_logic_1164 Package. 
+Textio Package. 
+Other Packages. 
+Creating Packages. 
+Interface Declaration. 
+Port Declaration. 
+Generics. 
+Type Declaration. 
+Other Declarations. 
+Object Declarations. 
+Subprogram Declarations. 
+Alias and Attribute Declarations. 
+Predefined Attributes. 
+Sequential Statements. 
+Wait Statement. 
+Assertion and Report Statements. 
+Assignment Statements. 
+Procedure Call. 
+If Statement. 
+Case Statement. 
+Other Sequential Control Statements. 
+Operators. 
+Arithmetic. 
+IEEE Synthesis Packages. 
+Concurrent Statements. 
+Block Statement. 
+Process Statement. 
+Concurrent Procedure Call. 
+Concurrent Signal Assignment. 
+Concurrent Assertion Statement. 
+Component Instantiation. 
+Generate Statement. 
+Execution. 
+Configurations and Specifications. 
+An Engine Controller. 
+
+
+11. Verilog HDL. 
+A Counter. 
+Basics of the Verilog Language. 
+Verilog Logic Values. 
+Verilog Data Types. 
+Other Wire Types. 
+Numbers. 
+Negative Numbers. 
+Strings. 
+Operators. 
+Arithmetic. 
+Hierarchy. 
+Procedures and Assignments. 
+Continuous Assignment Statement. 
+Sequential Block. 
+Procedural Assignments. 
+Timing Controls and Delay. 
+Timing Control. 
+Data Slip. 
+Wait Statement. 
+Blocking and Non-blocking Assignments. 
+Procedural Continuous Assignment. 
+Tasks and Functions. 
+Control Statements. 
+Case and If Statement. 
+Loop Statement. 
+Disable. 
+Fork and Join. 
+Logic Gate Modeling. 
+Built-in Logic Models. 
+User-defined Primitives. 
+Modeling Delay. 
+Net and Gate Delay. 
+Pin-to-pin Delay. 
+Altering Parameters. 
+A Viterbi Decoder. 
+Viterbi Encoder. 
+The Received Signal. 
+Testing the System. 
+Verilog Decoder Model. 
+Other Verilog Features. 
+Display Tasks. 
+File I/O Tasks. 
+Timescale, Simulation, and Timing Check Tasks. 
+PLA Tasks. 
+Stochastic Analysis Tasks. 
+Simulation Time Functions. 
+Conversion Functions. 
+Probability Distribution Functions. 
+Programming Language Interface. 
+The Viterbi Decoder. 
+
+
+12. Logic Synthesis. 
+A Logic-Synthesis Example. 
+A Comparator/MUX. 
+An Actel Version of the Comparator/MUX. 
+Inside a Logic Synthesizer. 
+Synthesis of the Viterbi Decoder. 
+ASIC I/O. 
+Flip-Flops. 
+The Top-Level Model. 
+Verilog and Logic Synthesis. 
+Verilog Modeling. 
+Delays in Verilog. 
+Blocking and Nonblocking Assignments. 
+Combinational Logic in Verilog. 
+Multiplexers In Verilog. 
+The Verilog Case Statement. 
+Decoders In Verilog. 
+Priority Encoder in Verilog. 
+Arithmetic in Verilog. 
+Sequential Logic in Verilog. 
+Component Instantiation in Verilog. 
+Datapath Synthesis in Verilog. 
+VHDL and Logic Synthesis. 
+Initialization and Reset. 
+Combinational Logic Synthesis in VHDL. 
+Multiplexers in VHDL. 
+Decoders in VHDL. 
+Adders in VHDL. 
+Sequential Logic in VHDL. 
+Instantiation in VHDL. 
+Shift Registers and Clocking in VHDL. 
+Adders and Arithmetic Functions. 
+Adder-subtracter and Donét Cares. 
+Finite-State Machine Synthesis. 
+FSM Synthesis in Verilog. 
+FSM Synthesis in VHDL. 
+Memory Synthesis. 
+Memory Synthesis in Verilog. 
+Memory Synthesis in VHDL. 
+The Multiplier. 
+Messages During Synthesis. 
+The Engine Controller. 
+Performance-Driven Synthesis. 
+Optimization of the Viterbi Decoder. 
+
+
+13. Simulation. 
+The Different Types of Simulation. 
+The Comparator/MUX Example. 
+Structural Simulation. 
+Static Timing Analysis. 
+Gate-Level Simulation. 
+Net Capacitance. 
+Logic Systems. 
+Signal Resolution. 
+Logic Strength. 
+How Logic Simulation Works. 
+VHDL Simulation Cycle. 
+Delay. 
+Cell Models. 
+Primitive Models. 
+Synopsys Models. 
+Verilog Models. 
+VHDL Models. 
+VITAL Models. 
+SDF in Simulation. 
+Delay Models. 
+Using a Library Data Book. 
+Input-Slope Delay Model. 
+Limitations of Logic Simulation. 
+Static Timing Analysis. 
+Hold Time. 
+Entry Delay. 
+Exit Delay. 
+External Setup Time. 
+Formal Verification. 
+An Example. 
+Understanding Formal Verification. 
+Adding an Assertion. 
+Completing a Proof. 
+Switch-Level Simulation. 
+Transistor-Level Simulation. 
+A PSpice Example. 
+SPICE Models. 
+
+
+
+14. Test. 
+The Importance of Test. 
+Boundary-Scan Test. 
+BST Cells. 
+BST Registers. 
+Instruction Decoder. 
+TAP Controller. 
+Boundary-Scan Controller. 
+A Simple Boundary-Scan Example. 
+BSDL. 
+Faults. 
+Reliability. 
+Fault Models. 
+Physical Faults. 
+Stuck-at Fault Model. 
+Logical Faults. 
+IDDQ Test. 
+Fault Collapsing. 
+Fault Collapsing Example. 
+Fault Simulation. 
+Serial Fault Simulation. 
+Parallel Fault Simulation. 
+Concurrent Fault Simulation. 
+Nondeterministic Fault Simulation. 
+Fault-Simulation Results. 
+Fault-Simulator Logic Systems. 
+Hardware Acceleration. 
+A Fault Simulation Example. 
+Fault Simulation in an ASIC Design Flow. 
+Automatic Test-Pattern Generation. 
+The D-Calculus. 
+A Basic ATPG Algorithm. 
+The PODEM Algorithm. 
+Controllability and Observability. 
+Scan Test. 
+Built-in Self-test. 
+LFSR. 
+Signature Analysis. 
+A Simple BIST Example. 
+Aliasing. 
+LFSR Theory. 
+LFSR Example. 
+MISR. 
+A Simple Test Example. 
+Test Logic Insertion. 
+How the Test Software Works. 
+ATVG and Fault Simulation. 
+Test Vectors. 
+Production Tester Vector Formats. 
+Test Flow. 
+The Viterbi Decoder Example. 
+
+
+15. ASIC Construction. 
+Physical Design. 
+CAD Tools. 
+Methods and Algorithms. 
+System Partitioning. 
+Estimating ASIC Size. 
+Power Dissipation. 
+Switching Current. 
+Short-Circuit Current. 
+Subthreshold and Leakage Current. 
+FPGA Partitioning. 
+ATM Simulator. 
+Automatic Partitioning with FPGAs. 
+Partitioning Methods. 
+Measuring Connectivity. 
+A Simple Partitioning Example. 
+Constructive Partitioning. 
+Iterative Partitioning Improvement. 
+The Kernighan?Lin Algorithm. 
+The Ratio-Cut Algorithm. 
+The Look-ahead Algorithm. 
+Simulated Annealing. 
+Other Partitioning Objectives. 
+
+
+16. Floorplanning and Placement. 
+Floorplanning. 
+Floorplanning Goals and Objectives. 
+Measurement of Delay in Floorplanning. 
+Floorplanning Tools. 
+Channel Definition. 
+I/O and Power Planning. 
+Clock Planning. 
+Placement. 
+Placement Terms and Definitions. 
+Placement Goals And Objectives. 
+Measurement of Placement Goals and Objectives. 
+Placement Algorithms. 
+Eigenvalue Placement Example. 
+Iterative Placement Improvement. 
+Placement Using Simulated Annealing. 
+Timing-Driven Placement Methods. 
+A Simple Placement Example. 
+Physical Design Flow. 
+Information Formats. 
+SDF for Floorplanning and Placement. 
+PDEF. 
+LEF and DEF. 
+
+
+17. Routing. 
+Global Routing. 
+Goals and Objectives. 
+Measurement of Interconnect Delay. 
+Global Routing Methods. 
+Global Routing Between Blocks. 
+Global Routing Inside Flexible Blocks. 
+Timing-Driven Methods. 
+Back-annotation. 
+Detailed Routing. 
+Goals and Objectives. 
+Measurement of Channel Density. 
+Algorithms. 
+Left-Edge Algorithm. 
+Constraints and Routing Graphs. 
+Area-Routing Algorithms. 
+Multilevel Routing. 
+Timing-Driven Detailed Routing. 
+Final Routing Steps. 
+Special Routing. 
+Clock Routing. 
+Power Routing. 
+Circuit Extraction and DRC. 
+SPF, RSPF and DSPF. 
+Design Checks. 
+Mask Preparation. 
+
+
+Appendix A. VHDL Resources. 
+BNF. 
+VHDL Syntax. 
+BNF Index. 
+Bibliography. 
+References. 
+
+
+Appendix B. Verilog HDLResources. 
+Explanation of the Verilog HDL BNF. 
+Verilog HDL Syntax. 
+BNF Index. 
+Verilog HDL LRM. 
+Bibliography. 
+References. 
