@@ -1,0 +1,86 @@
+/* file : fitness.c
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+
+void
+fitness(popu,FIT,p_size,len,pat,tar,n,h,p,k,m,te,fileName,
+		resultName,critio,total,gen)
+int	**popu;	/* pointer to the population */
+double	*FIT;	/* pointer to the fitness vector */
+int		p_size;	/* population size */
+int 		len;	/* length of individual vector */
+double 	**pat;		/* input patterns */
+double 	**tar;	/* target */
+int 	n;	/* input dim */
+int 	h;  /* hidden dim */
+int 	p; /* output dim */
+int	k;  /* each para represented by k bits */
+int	m;	  /* training patterns number */
+int	*te;	/* flag for termination */
+char	*fileName; /* weightFile */
+char	*resultName;	/* resultFile Name */
+double 	critio;	/* minimum mean square */
+int gen;	/* generation */
+{
+	int i;
+	int ind,max;		/* index for maximum */
+	int sa;	/* save best weights */
+	
+	double	**weight_ih,**weight_ho;
+
+	extern void getWeight(int *,int,int,int,int,int,double **,double **);
+	extern double bp(double **,double **,double **,double **,
+					  int, int, int,int,int *,char *,char *,double,int,int);
+	extern int maximum(double *,int);
+
+	weight_ih=(double **)calloc(h,sizeof(double *));
+	for (i=0;i<h;i++)
+		weight_ih[i]=(double *)calloc((n+1),sizeof(double));
+
+	weight_ho=(double **)calloc(p,sizeof(double *));
+	for (i=0;i<p;i++)
+		weight_ho[i]=(double *)calloc((h+1),sizeof(double));
+
+	ind =-1;
+	if ((gen%100)==1)
+		ind=maximum(FIT,p_size);
+
+	/* fitness calculation */
+	for (i=0;i<p_size;i++)
+	{
+		/* convert binary vector to weight coefficients */
+		getWeight(popu[i],len,k,n,h,p,weight_ih,weight_ho);
+
+		/* bp, get fitness  */
+		sa=0;
+		if (i==ind)
+			sa=1;
+
+		FIT[i]=bp(weight_ih,weight_ho,pat,tar,n,h,p,m,te,
+				fileName,resultName,critio,total,sa);
+
+	}
+
+	ind=maximum(FIT,p_size);
+	max=FIT[ind];
+	if (max<=1.0)
+		max=1.0;
+
+	/* calculate final fitness */
+	for (i=0;i<p_size;i++)
+		FIT[i]=max-FIT[i]+0.00001;
+
+
+	for (i=0;i<h;i++)
+		free(weight_ih[i]);
+	free(weight_ih);
+	for (i=0;i<p;i++)
+		free(weight_ho[i]);
+	free(weight_ho);
+}
+
+
+
+
